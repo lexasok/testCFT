@@ -20,7 +20,7 @@
 
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/imageMain"
             android:layout_width="@dimen/size_image_main"
             android:layout_height="@dimen/size_image_main"
             android:layout_marginStart="16dp"
@@ -28,6 +28,44 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@mipmap/ic_launcher_round" />
+
+        <ImageView
+            android:id="@+id/buttonRotate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageMain"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_menu_rotate" />
+
+        <Button
+            android:id="@+id/buttonBlackAndWhite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/button_black_and_white"
+            android:textSize="@dimen/size_text_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageMain"
+            app:layout_constraintTop_toBottomOf="@+id/buttonRotate" />
+
+        <Button
+            android:id="@+id/buttonMirrorImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:textSize="@dimen/size_text_button"
+            android:text="@string/button_mirror_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageMain"
+            app:layout_constraintTop_toBottomOf="@+id/buttonBlackAndWhite" />
     </android.support.constraint.ConstraintLayout>
 
 
