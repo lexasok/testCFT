@@ -57,6 +57,7 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
 
     public void addProcess(Process process) {
         mData.add(process);
+        notifyDataSetChanged();
     }
 
     public class ProcessViewHolder extends RecyclerView.ViewHolder {
