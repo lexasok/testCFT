@@ -8,10 +8,11 @@
 
     <Button
         android:id="@+id/buttonChooseImage"
-        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"/>
+        android:layout_centerInParent="true"
+        android:text="@string/button_choose_image"
+        android:visibility="gone" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/containerContentMain"
