@@ -29,7 +29,25 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ProcessViewHolder processViewHolder, int i) {
+        Process process = mData.get(i);
 
+        switch (process.getProcessCode()) {
+            case Process.CODE_ROTATE_CKW:
+
+                break;
+
+            case Process.CODE_ROTATE_CCW:
+
+                break;
+
+            case Process.CODE_BLACK_AND_WHITE:
+
+                break;
+
+            case Process.CODE_MIRROR_IMAGE:
+
+                break;
+        }
     }
 
     @Override

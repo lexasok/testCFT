@@ -2,10 +2,10 @@ package com.example.alex.testcft.DataStructure;
 
 public class Process {
 
-    private static final int CODE_ROTATE_CKW = 0;
-    private static final int CODE_ROTATE_CCW = 1;
-    private static final int CODE_BLACK_AND_WHITE = 2;
-    private static final int CODE_MIRROR_IMAGE = 3;
+    public static final int CODE_ROTATE_CKW = 0;
+    public static final int CODE_ROTATE_CCW = 1;
+    public static final int CODE_BLACK_AND_WHITE = 2;
+    public static final int CODE_MIRROR_IMAGE = 3;
 
     private String image;
     private int processCode;
