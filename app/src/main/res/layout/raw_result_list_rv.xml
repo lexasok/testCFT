@@ -9,7 +9,8 @@
         android:id="@+id/progressBarRowRV"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:progress="0"/>
 
     <ImageView
         android:id="@+id/resultImageViewRowRV"
