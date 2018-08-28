@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 
 import com.example.alex.testcft.DataStructure.Process;
 import com.example.alex.testcft.ImageProcessing.ImageRotater;
+import com.example.alex.testcft.ImageProcessing.ProgressDelay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +33,13 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ProcessViewHolder processViewHolder, int i) {
         Process process = mData.get(i);
-        Bitmap bitmap;
+        Bitmap bitmap = process.getImage();
+
+
 
         switch (process.getProcessCode()) {
             case Process.CODE_ROTATE_CKW:
-                bitmap = ImageRotater.RotateBitmap(process.getImage(), 90);
+                bitmap = ImageRotater.RotateBitmap(process.getImage(), 90);;
                 processViewHolder.imageView.setImageBitmap(bitmap);
                 break;
 
@@ -59,6 +62,7 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
                 break;
         }
     }
+
 
     @Override
     public int getItemCount() {
