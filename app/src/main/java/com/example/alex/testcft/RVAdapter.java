@@ -51,8 +51,7 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
                 break;
 
             case Process.CODE_BLACK_AND_WHITE:
-                bitmap = ImageRotater.RotateBitmap(process.getImage(), 180);
-                processViewHolder.imageView.setImageBitmap(bitmap);
+
                 break;
 
             case Process.CODE_MIRROR_IMAGE:
