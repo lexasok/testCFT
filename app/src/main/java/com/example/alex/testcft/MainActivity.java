@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 
+import com.example.alex.testcft.DataStructure.Process;
 import com.example.alex.testcft.ImageProcessing.ImageRotater;
 
 import java.io.IOException;
@@ -30,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imageMain;
     private ImageView buttonRotate;
 
+    //adapters
+    private RVAdapter rvAdapter;
+
     //bitmap
     private Bitmap bitmap;
 
@@ -39,7 +45,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initViews();
+        initRV();
 
+    }
+
+    private void initRV() {
+        RecyclerView recyclerView = findViewById(R.id.resultListRV);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        rvAdapter = new RVAdapter();
+        recyclerView.setAdapter(rvAdapter);
     }
 
     @Override
@@ -95,7 +109,8 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.menu_item_rotate_90_ckw:
-
+                Process process = new Process(bitmap, Process.CODE_ROTATE_CKW);
+                rvAdapter.addProcess(process);
                 break;
             case R.id.menu_item_rotate_90_ccw:
 

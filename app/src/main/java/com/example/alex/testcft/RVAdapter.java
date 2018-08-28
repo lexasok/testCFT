@@ -1,5 +1,6 @@
 package com.example.alex.testcft;
 
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.example.alex.testcft.DataStructure.Process;
+import com.example.alex.testcft.ImageProcessing.ImageRotater;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +35,8 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
 
         switch (process.getProcessCode()) {
             case Process.CODE_ROTATE_CKW:
-
+                Bitmap bitmap = ImageRotater.RotateBitmap(process.getImage(), 90);
+                processViewHolder.imageView.setImageBitmap(bitmap);
                 break;
 
             case Process.CODE_ROTATE_CCW:
