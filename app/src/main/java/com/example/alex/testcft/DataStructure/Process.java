@@ -13,6 +13,12 @@ public class Process {
     private Bitmap image;
     private int processCode;
 
+    public Process(Bitmap image, int processCode) {
+        this.image = image;
+        this.processCode = processCode;
+
+    }
+
     public Bitmap getImage() {
         return image;
     }
@@ -30,9 +36,4 @@ public class Process {
         this.processCode = processCode;
     }
 
-    public Process(Bitmap image, int processCode) {
-        this.image = image;
-        this.processCode = processCode;
-
-    }
 }

@@ -15,6 +15,9 @@
     <ImageView
         android:id="@+id/resultImageViewRowRV"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:cropToPadding="true"
+        android:src="@mipmap/ic_launcher" />
 
 </LinearLayout>

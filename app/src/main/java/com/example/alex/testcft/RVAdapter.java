@@ -82,4 +82,5 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
             imageView = itemView.findViewById(R.id.resultImageViewRowRV);
         }
     }
+
 }
