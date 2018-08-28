@@ -6,8 +6,9 @@ public class Process {
 
     public static final int CODE_ROTATE_CKW = 0;
     public static final int CODE_ROTATE_CCW = 1;
-    public static final int CODE_BLACK_AND_WHITE = 2;
-    public static final int CODE_MIRROR_IMAGE = 3;
+    public static final int CODE_ROTATE_180 = 2;
+    public static final int CODE_BLACK_AND_WHITE = 3;
+    public static final int CODE_MIRROR_IMAGE = 4;
 
     private Bitmap image;
     private int processCode;

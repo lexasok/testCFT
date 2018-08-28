@@ -107,16 +107,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void rotate(MenuItem item) {
         int id = item.getItemId();
+        Process process;
         switch (id) {
             case R.id.menu_item_rotate_90_ckw:
-                Process process = new Process(bitmap, Process.CODE_ROTATE_CKW);
+                process = new Process(bitmap, Process.CODE_ROTATE_CKW);
                 rvAdapter.addProcess(process);
                 break;
             case R.id.menu_item_rotate_90_ccw:
-
+                process = new Process(bitmap, Process.CODE_ROTATE_CCW);
+                rvAdapter.addProcess(process);
                 break;
             case R.id.menu_item_rotate_180:
-
+                process = new Process(bitmap, Process.CODE_ROTATE_180);
+                rvAdapter.addProcess(process);
                 break;
         }
     }

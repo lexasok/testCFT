@@ -32,19 +32,27 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ProcessViewHolder processViewHolder, int i) {
         Process process = mData.get(i);
+        Bitmap bitmap;
 
         switch (process.getProcessCode()) {
             case Process.CODE_ROTATE_CKW:
-                Bitmap bitmap = ImageRotater.RotateBitmap(process.getImage(), 90);
+                bitmap = ImageRotater.RotateBitmap(process.getImage(), 90);
                 processViewHolder.imageView.setImageBitmap(bitmap);
                 break;
 
             case Process.CODE_ROTATE_CCW:
+                bitmap = ImageRotater.RotateBitmap(process.getImage(), -90);
+                processViewHolder.imageView.setImageBitmap(bitmap);
+                break;
 
+            case Process.CODE_ROTATE_180:
+                bitmap = ImageRotater.RotateBitmap(process.getImage(), 180);
+                processViewHolder.imageView.setImageBitmap(bitmap);
                 break;
 
             case Process.CODE_BLACK_AND_WHITE:
-
+                bitmap = ImageRotater.RotateBitmap(process.getImage(), 180);
+                processViewHolder.imageView.setImageBitmap(bitmap);
                 break;
 
             case Process.CODE_MIRROR_IMAGE:
