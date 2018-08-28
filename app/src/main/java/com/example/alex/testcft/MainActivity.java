@@ -9,6 +9,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -37,11 +38,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //init views
-        containerMain = findViewById(R.id.containerContentMain);
-        buttonChooseImage = findViewById(R.id.buttonChooseImage);
-        imageMain = findViewById(R.id.imageMain);
-        buttonRotate = findViewById(R.id.buttonRotate);
+        initViews();
+
     }
 
     @Override
@@ -63,8 +61,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void initViews() {
+        containerMain = findViewById(R.id.containerContentMain);
+        buttonChooseImage = findViewById(R.id.buttonChooseImage);
+        imageMain = findViewById(R.id.imageMain);
+        buttonRotate = findViewById(R.id.buttonRotate);
+    }
+
     //show or hide views
-    private void showContent() {
+    public void showContent() {
         if (buttonChooseImage.getVisibility() == View.VISIBLE) {
             buttonChooseImage.setVisibility(View.GONE);
             containerMain.setVisibility(View.VISIBLE);
@@ -84,5 +89,20 @@ public class MainActivity extends AppCompatActivity {
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
         startActivityForResult(intent, RESULT_LOAD_IMAGE);
+    }
+
+    public void rotate(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.menu_item_rotate_90_ckw:
+
+                break;
+            case R.id.menu_item_rotate_90_ccw:
+
+                break;
+            case R.id.menu_item_rotate_180:
+
+                break;
+        }
     }
 }
