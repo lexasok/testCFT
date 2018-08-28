@@ -1,5 +1,7 @@
 package com.example.alex.testcft.DataStructure;
 
+import android.graphics.Bitmap;
+
 public class Process {
 
     public static final int CODE_ROTATE_CKW = 0;
@@ -7,15 +9,15 @@ public class Process {
     public static final int CODE_BLACK_AND_WHITE = 2;
     public static final int CODE_MIRROR_IMAGE = 3;
 
-    private String image;
+    private Bitmap image;
     private int processCode;
 
-    public String getImage() {
+    public Bitmap getImage() {
         return image;
     }
 
     //getters & setters
-    public void setImage(String image) {
+    public void setImage(Bitmap image) {
         this.image = image;
     }
 
@@ -27,7 +29,7 @@ public class Process {
         this.processCode = processCode;
     }
 
-    public Process(String image, int processCode) {
+    public Process(Bitmap image, int processCode) {
         this.image = image;
         this.processCode = processCode;
 
