@@ -1,18 +1,17 @@
 package com.example.alex.testcft;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
-import java.io.File;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int RESULT_LOAD_IMAGE = 1;
 
     //fields
+    private ConstraintLayout containerMain;
+    private Button buttonChooseImage;
     private ImageView imageMain;
 
     @Override
@@ -28,9 +29,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //init loading image
-        imageMain = findViewById(R.id.imageMain);
-        imageMain.setOnClickListener(new View.OnClickListener() {
+        //init main container
+        containerMain = findViewById(R.id.containerContentMain);
+
+        //init loading image OnClickListener
+        View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(
@@ -39,13 +42,23 @@ public class MainActivity extends AppCompatActivity {
 
                 startActivityForResult(intent, RESULT_LOAD_IMAGE);
             }
-        });
+        };
+
+        //first loading image
+        buttonChooseImage = findViewById(R.id.buttonChooseImage);
+        buttonChooseImage.setOnClickListener(onClickListener);
+
+        //init loading image
+        imageMain = findViewById(R.id.imageMain);
+        //choosing image
+        imageMain.setOnClickListener(onClickListener);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        //setting image
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri imageUri = data.getData();
 
@@ -56,7 +69,15 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+            showContent();
+        }
+    }
 
+    //show or hide views
+    private void showContent() {
+        if (buttonChooseImage.getVisibility() == View.VISIBLE) {
+            buttonChooseImage.setVisibility(View.GONE);
+            containerMain.setVisibility(View.VISIBLE);
         }
     }
 }
