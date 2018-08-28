@@ -40,7 +40,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageMain"
             app:layout_constraintTop_toTopOf="@+id/imageMain"
-            app:srcCompat="@android:drawable/ic_menu_rotate" />
+            app:srcCompat="@android:drawable/ic_menu_rotate"
+            android:onClick="showPopup"/>
 
         <Button
             android:id="@+id/buttonBlackAndWhite"

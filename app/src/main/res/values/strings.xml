@@ -6,4 +6,9 @@
     <string name="button_mirror_image">mirror image</string>
     <string name="button_choose_image">choose image</string>
 
+    <!--menu titles-->
+    <string name="menu_title_rotate_90_ckw">90° clockwise</string>
+    <string name="menu_title_rotate_90_ccw">90° counterclockwise</string>
+    <string name="menu_title_rotate_180">180°</string>
+
 </resources>

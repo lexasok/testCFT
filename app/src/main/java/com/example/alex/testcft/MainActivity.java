@@ -8,9 +8,13 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
+
+import com.example.alex.testcft.ImageProcessing.ImageRotater;
 
 import java.io.IOException;
 
@@ -19,10 +23,14 @@ public class MainActivity extends AppCompatActivity {
     //constants
     private static final int RESULT_LOAD_IMAGE = 1;
 
-    //fields
+    //view
     private ConstraintLayout containerMain;
     private Button buttonChooseImage;
     private ImageView imageMain;
+    private ImageView buttonRotate;
+
+    //bitmap
+    private Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
         imageMain = findViewById(R.id.imageMain);
         //choosing image
         imageMain.setOnClickListener(onClickListener);
+
+        //init rotate button
+        buttonRotate = findViewById(R.id.buttonRotate);
     }
 
     @Override
@@ -63,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             Uri imageUri = data.getData();
 
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
                 imageMain.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -79,5 +90,12 @@ public class MainActivity extends AppCompatActivity {
             buttonChooseImage.setVisibility(View.GONE);
             containerMain.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void showPopup(View view) {
+        PopupMenu popupMenu = new PopupMenu(this, view);
+        MenuInflater menuInflater = popupMenu.getMenuInflater();
+        menuInflater.inflate(R.menu.menu_rotate, popupMenu.getMenu());
+        popupMenu.show();
     }
 }
