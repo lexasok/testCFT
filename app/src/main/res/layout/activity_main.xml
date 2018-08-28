@@ -39,7 +39,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageMain"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageMain"
             app:srcCompat="@android:drawable/ic_menu_rotate" />
 
         <Button
