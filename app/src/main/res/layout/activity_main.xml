@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="@string/button_choose_image"
-        android:visibility="visible" />
+        android:visibility="visible"
+        android:onClick="openImageBrowser"/>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/containerContentMain"
@@ -28,7 +29,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:onClick="openImageBrowser"/>
 
         <ImageView
             android:id="@+id/buttonRotate"

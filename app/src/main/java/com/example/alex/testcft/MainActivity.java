@@ -37,31 +37,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //init main container
+        //init views
         containerMain = findViewById(R.id.containerContentMain);
-
-        //init loading image OnClickListener
-        View.OnClickListener onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(
-                        Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-                startActivityForResult(intent, RESULT_LOAD_IMAGE);
-            }
-        };
-
-        //first loading image
         buttonChooseImage = findViewById(R.id.buttonChooseImage);
-        buttonChooseImage.setOnClickListener(onClickListener);
-
-        //init loading image
         imageMain = findViewById(R.id.imageMain);
-        //choosing image
-        imageMain.setOnClickListener(onClickListener);
-
-        //init rotate button
         buttonRotate = findViewById(R.id.buttonRotate);
     }
 
@@ -97,5 +76,13 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater menuInflater = popupMenu.getMenuInflater();
         menuInflater.inflate(R.menu.menu_rotate, popupMenu.getMenu());
         popupMenu.show();
+    }
+
+    public void openImageBrowser(View view) {
+        Intent intent = new Intent(
+                Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        startActivityForResult(intent, RESULT_LOAD_IMAGE);
     }
 }
