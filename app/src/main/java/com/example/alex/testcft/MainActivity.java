@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.example.alex.testcft.ImageProcessing.BlackAndWhiteImage;
 import com.example.alex.testcft.ImageProcessing.ImageRotate;
 import com.example.alex.testcft.ImageProcessing.ProgressTask;
 
@@ -145,7 +146,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void doBlackAndWhite(View view) {
+        //processing
+        Bitmap result = BlackAndWhiteImage.make(bitmap);
 
+        //loading
+        load(result);
     }
 
     public void mirrorImage(View view) {

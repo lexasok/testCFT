@@ -29,7 +29,7 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull final ProcessViewHolder processViewHolder, int i) {
 
-        Bitmap bitmap = mData.get(0);
+        Bitmap bitmap = mData.get(i);
         processViewHolder.imageView.setImageBitmap(bitmap);
 
     }
