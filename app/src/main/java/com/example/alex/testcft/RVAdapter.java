@@ -21,10 +21,11 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
     //data
     private List<Bitmap> mData = new ArrayList<>();
     private Context mContext;
-    private ImageView imageMain;
+    private MainActivity mainActivity;
 
-    RVAdapter(Context context, ImageView imageMain) {
+    RVAdapter(Context context, MainActivity mainActivity) {
         mContext = context;
+        this.mainActivity = mainActivity;
 
     }
 
@@ -75,7 +76,7 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
 
     public void showPopup(final View view, final int pos) {
         final android.support.v7.widget.PopupMenu popupMenu = new android.support.v7.widget.PopupMenu(mContext, view);
-        MenuInflater menuInflater = popupMenu.getMenuInflater();
+        final MenuInflater menuInflater = popupMenu.getMenuInflater();
         menuInflater.inflate(R.menu.menu_rv_item_popup, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -86,6 +87,7 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
                         notifyDataSetChanged();
                         break;
                     case R.id.setAsMainImage:
+                        mainActivity.setImageMain(mData.get(pos));
                         break;
                 }
                 return false;

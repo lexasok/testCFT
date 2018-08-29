@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.resultListRV);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        rvAdapter = new RVAdapter(this, imageMain);
+        rvAdapter = new RVAdapter(this, this);
         recyclerView.setAdapter(rvAdapter);
     }
 
@@ -167,5 +167,10 @@ public class MainActivity extends AppCompatActivity {
         RelativeLayout relativeLayout = (RelativeLayout) getLayoutInflater().inflate(R.layout.loading_row, null);
         progressList.addView(relativeLayout);
         new ProgressTask(relativeLayout, rvAdapter, result, button).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public void setImageMain(Bitmap bitmap) {
+        imageMain.setImageBitmap(bitmap);
+        this.bitmap = bitmap;
     }
 }
