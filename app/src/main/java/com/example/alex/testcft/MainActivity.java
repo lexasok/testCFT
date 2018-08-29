@@ -49,10 +49,15 @@ public class MainActivity extends AppCompatActivity {
     //menu
     private android.support.v7.widget.PopupMenu popupMenu;
 
+    //Context
+    private Context mContext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mContext = this;
 
         initViews();
         initRV();
@@ -134,13 +139,15 @@ public class MainActivity extends AppCompatActivity {
             break;
         }
 
-        final Context context = this;
         //loading
+        load(process);
+    }
 
-        ProgressBar progressBar = new ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal);
+    private void load(Process process) {
+        ProgressBar progressBar = new ProgressBar(mContext, null, android.R.attr.progressBarStyleHorizontal);
         progressBar.setProgress(0);
         progressBar.setMax(100);
         progressList.addView(progressBar);
-        new ProgressTask(progressBar, rvAdapter, process);
+        new ProgressTask(progressBar, rvAdapter, process).execute();
     }
 }

@@ -21,7 +21,7 @@ public class ProgressTask extends AsyncTask<Void, Integer, Void> {
     }
 
     @Override
-    protected Void doInBackground(Void... aVoid) {
+    protected Void doInBackground(Void... unused) {
         for (int i = 0; i < 100; i++) {
             publishProgress(i);
             SystemClock.sleep(50);
@@ -35,7 +35,7 @@ public class ProgressTask extends AsyncTask<Void, Integer, Void> {
     }
 
     @Override
-    protected void onPostExecute(Void aVoid) {
+    protected void onPostExecute(Void unused) {
         progressBar.setVisibility(View.GONE);
         rvAdapter.addProcess(process);
     }
