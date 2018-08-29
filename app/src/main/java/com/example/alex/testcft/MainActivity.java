@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.example.alex.testcft.DataStructure.Process;
+import com.example.alex.testcft.ImageProcessing.ProgressTask;
 
 import java.io.IOException;
 
@@ -137,43 +138,9 @@ public class MainActivity extends AppCompatActivity {
         //loading
 
         ProgressBar progressBar = new ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal);
-        progressBar.setIndeterminate(false);
         progressBar.setProgress(0);
         progressBar.setMax(100);
         progressList.addView(progressBar);
         new ProgressTask(progressBar, rvAdapter, process);
-    }
-
-    class ProgressTask extends AsyncTask<Void, Integer, Void> {
-
-        private ProgressBar progressBar;
-        private RVAdapter rvAdapter;
-        private Process process;
-
-        public ProgressTask(ProgressBar progressBar, RVAdapter rvAdapter, Process process) {
-            this.progressBar = progressBar;
-            this.rvAdapter = rvAdapter;
-            this.process = process;
-        }
-
-        @Override
-        protected Void doInBackground(Void... aVoid) {
-            for (int i = 0; i < 100; i++) {
-                publishProgress(i);
-                SystemClock.sleep(50);
-            }
-            return (null);
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            progressBar.setProgress(values[0]+1);
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            progressBar.setVisibility(View.GONE);
-            rvAdapter.addProcess(process);
-        }
     }
 }
