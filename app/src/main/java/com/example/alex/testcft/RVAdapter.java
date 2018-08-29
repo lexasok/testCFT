@@ -25,6 +25,7 @@ import com.example.alex.testcft.ImageProcessing.ProgressDelay;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
 
@@ -49,7 +50,7 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
     public void onBindViewHolder(@NonNull final ProcessViewHolder processViewHolder, int i) {
 
         Process process = mData.get(i);
-        Bitmap bitmap;
+        final Bitmap bitmap;
 
         switch (process.getProcessCode()) {
             case Process.CODE_ROTATE_CKW:
@@ -73,6 +74,7 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
                 break;
             default:
                 bitmap = null;
+                break;
         }
         processViewHolder.imageView.setImageBitmap(bitmap);
 

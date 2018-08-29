@@ -11,9 +11,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:onClick="openImageBrowser"
         android:text="@string/button_choose_image"
-        android:visibility="visible"
-        android:onClick="openImageBrowser"/>
+        android:visibility="visible" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/containerContentMain"
@@ -28,9 +28,9 @@
             android:layout_height="@dimen/size_image_main"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:onClick="openImageBrowser"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:onClick="openImageBrowser"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/buttonRotate"
@@ -39,11 +39,11 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:onClick="showPopup"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageMain"
             app:layout_constraintTop_toTopOf="@+id/imageMain"
-            app:srcCompat="@android:drawable/ic_menu_rotate"
-            android:onClick="showPopup"/>
+            app:srcCompat="@android:drawable/ic_menu_rotate" />
 
         <Button
             android:id="@+id/buttonBlackAndWhite"
@@ -80,11 +80,23 @@
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageMain" />
+            app:layout_constraintTop_toBottomOf="@+id/progressList" />
+
+        <LinearLayout
+            android:id="@+id/progressList"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageMain"></LinearLayout>
     </android.support.constraint.ConstraintLayout>
 
 

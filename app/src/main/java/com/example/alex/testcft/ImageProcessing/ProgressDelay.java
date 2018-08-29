@@ -20,4 +20,12 @@ public class ProgressDelay {
             }
         }
     }
+
+    public static void progressDelay() {
+        try {
+            Thread.sleep(DELAY);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }

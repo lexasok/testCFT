@@ -1,5 +1,6 @@
 package com.example.alex.testcft;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -10,15 +11,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.AttributeSet;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.example.alex.testcft.DataStructure.Process;
+import com.example.alex.testcft.ImageProcessing.ProgressDelay;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonChooseImage;
     private ImageView imageMain;
     private ImageView buttonRotate;
+    private LinearLayout progressList;
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager layoutManager;
 
     //adapters
     private RVAdapter rvAdapter;
@@ -47,12 +58,12 @@ public class MainActivity extends AppCompatActivity {
 
         initViews();
         initRV();
-
     }
 
     private void initRV() {
-        RecyclerView recyclerView = findViewById(R.id.resultListRV);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView = findViewById(R.id.resultListRV);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
         rvAdapter = new RVAdapter(this);
         recyclerView.setAdapter(rvAdapter);
     }
@@ -81,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
         buttonChooseImage = findViewById(R.id.buttonChooseImage);
         imageMain = findViewById(R.id.imageMain);
         buttonRotate = findViewById(R.id.buttonRotate);
+        progressList = findViewById(R.id.progressList);
     }
 
     //show or hide views
@@ -108,20 +120,30 @@ public class MainActivity extends AppCompatActivity {
 
     public void rotate(MenuItem item) {
         int id = item.getItemId();
-        Process process;
+        final Process process;
         switch (id) {
             case R.id.menu_item_rotate_90_ckw:
                 process = new Process(bitmap, Process.CODE_ROTATE_CKW);
-                rvAdapter.addProcess(process);
+
                 break;
             case R.id.menu_item_rotate_90_ccw:
                 process = new Process(bitmap, Process.CODE_ROTATE_CCW);
-                rvAdapter.addProcess(process);
                 break;
             case R.id.menu_item_rotate_180:
                 process = new Process(bitmap, Process.CODE_ROTATE_180);
-                rvAdapter.addProcess(process);
                 break;
+            default: process = null;
+            break;
         }
+
+        final Context context = this;
+        //loading
+
+        ProgressBar progressBar = new ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal);
+        progressBar.setIndeterminate(false);
+        progressBar.setProgress(0);
+        progressBar.setMax(100);
+        rvAdapter.addProcess(process);
+        progressList.addView(progressBar);
     }
 }
