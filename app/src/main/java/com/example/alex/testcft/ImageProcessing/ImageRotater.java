@@ -5,7 +5,7 @@ import android.graphics.Matrix;
 
 public class ImageRotater {
 
-    public static Bitmap RotateBitmap(Bitmap source, float angle)
+    public static Bitmap rotateBitmap(Bitmap source, float angle)
     {
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);

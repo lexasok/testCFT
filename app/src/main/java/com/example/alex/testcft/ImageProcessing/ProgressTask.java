@@ -1,5 +1,6 @@
 package com.example.alex.testcft.ImageProcessing;
 
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.SystemClock;
 import android.view.View;
@@ -7,7 +8,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.alex.testcft.DataStructure.Process;
 import com.example.alex.testcft.R;
 import com.example.alex.testcft.RVAdapter;
 
@@ -15,16 +15,16 @@ public class ProgressTask extends AsyncTask<Void, Integer, Void> {
 
     private ProgressBar progressBar;
     private RVAdapter rvAdapter;
-    private Process process;
+    private Bitmap result;
     private TextView percentIndicator;
     private RelativeLayout progressContainer;
 
-    public ProgressTask(RelativeLayout progressContainer, RVAdapter rvAdapter, Process process) {
+    public ProgressTask(RelativeLayout progressContainer, RVAdapter rvAdapter, Bitmap result) {
         this.progressContainer = progressContainer;
         this.progressBar = progressContainer.findViewById(R.id.progressBar);
         this.percentIndicator = progressContainer.findViewById(R.id.percentIndicator);
         this.rvAdapter = rvAdapter;
-        this.process = process;
+        this.result = result;
     }
 
     @Override
@@ -46,6 +46,6 @@ public class ProgressTask extends AsyncTask<Void, Integer, Void> {
     @Override
     protected void onPostExecute(Void unused) {
         progressContainer.setVisibility(View.GONE);
-        rvAdapter.addProcess(process);
+        rvAdapter.addBitmap(result);
     }
 }

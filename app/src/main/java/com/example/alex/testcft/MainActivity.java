@@ -18,15 +18,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import com.example.alex.testcft.DataStructure.Process;
+import com.example.alex.testcft.ImageProcessing.ImageRotater;
 import com.example.alex.testcft.ImageProcessing.ProgressTask;
 
 import java.io.IOException;
-import java.util.concurrent.ThreadPoolExecutor;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -69,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.resultListRV);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        rvAdapter = new RVAdapter(this);
+        rvAdapter = new RVAdapter();
         recyclerView.setAdapter(rvAdapter);
     }
 
@@ -125,30 +122,30 @@ public class MainActivity extends AppCompatActivity {
 
     public void rotate(MenuItem item) {
         int id = item.getItemId();
-        final Process process;
+        Bitmap result;
+
         switch (id) {
             case R.id.menu_item_rotate_90_ckw:
-                process = new Process(bitmap, Process.CODE_ROTATE_CKW);
-
+                result = ImageRotater.rotateBitmap(bitmap, 90);
                 break;
             case R.id.menu_item_rotate_90_ccw:
-                process = new Process(bitmap, Process.CODE_ROTATE_CCW);
+                result = ImageRotater.rotateBitmap(bitmap, -90);
                 break;
             case R.id.menu_item_rotate_180:
-                process = new Process(bitmap, Process.CODE_ROTATE_180);
+                result = ImageRotater.rotateBitmap(bitmap, 180);
                 break;
-            default: process = null;
+            default: result = bitmap;
             break;
         }
 
         //loading
-        load(process);
+        load(result);
     }
 
-    private void load(Process process) {
+    private void load(Bitmap result) {
         RelativeLayout relativeLayout = (RelativeLayout) getLayoutInflater().inflate(R.layout.loading_row, null);
         progressList.addView(relativeLayout);
-        new ProgressTask(relativeLayout, rvAdapter, process).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        new ProgressTask(relativeLayout, rvAdapter, result).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
 
