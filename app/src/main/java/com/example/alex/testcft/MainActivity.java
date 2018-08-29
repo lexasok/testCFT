@@ -13,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.AttributeSet;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,12 +22,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.example.alex.testcft.DataStructure.Process;
-import com.example.alex.testcft.ImageProcessing.ProgressDelay;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -145,24 +140,24 @@ public class MainActivity extends AppCompatActivity {
         progressBar.setIndeterminate(false);
         progressBar.setProgress(0);
         progressBar.setMax(100);
-        rvAdapter.addProcess(process);
         progressList.addView(progressBar);
+        new ProgressTask(progressBar, rvAdapter, process);
     }
 
-    class ProgressTast extends AsyncTask<Process, Integer, Void> {
+    class ProgressTask extends AsyncTask<Void, Integer, Void> {
 
         private ProgressBar progressBar;
         private RVAdapter rvAdapter;
         private Process process;
 
-        public ProgressTast(ProgressBar progressBar, RVAdapter rvAdapter, Process process) {
+        public ProgressTask(ProgressBar progressBar, RVAdapter rvAdapter, Process process) {
             this.progressBar = progressBar;
             this.rvAdapter = rvAdapter;
             this.process = process;
         }
 
         @Override
-        protected Void doInBackground(Process... processes) {
+        protected Void doInBackground(Void... aVoid) {
             for (int i = 0; i < 100; i++) {
                 publishProgress(i);
                 SystemClock.sleep(50);
@@ -172,13 +167,11 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
             progressBar.setProgress(values[0]+1);
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
             progressBar.setVisibility(View.GONE);
             rvAdapter.addProcess(process);
         }
