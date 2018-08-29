@@ -15,10 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 
 import com.example.alex.testcft.DataStructure.Process;
-import com.example.alex.testcft.ImageProcessing.ImageRotater;
 
 import java.io.IOException;
 
@@ -39,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
     //bitmap
     private Bitmap bitmap;
 
+    //menu
+    private android.support.v7.widget.PopupMenu popupMenu;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private void initRV() {
         RecyclerView recyclerView = findViewById(R.id.resultListRV);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        rvAdapter = new RVAdapter();
+        rvAdapter = new RVAdapter(this);
         recyclerView.setAdapter(rvAdapter);
     }
 
@@ -91,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showPopup(View view) {
-        PopupMenu popupMenu = new PopupMenu(this, view);
+        popupMenu = new android.support.v7.widget.PopupMenu(this, view);
         MenuInflater menuInflater = popupMenu.getMenuInflater();
         menuInflater.inflate(R.menu.menu_rotate, popupMenu.getMenu());
         popupMenu.show();
