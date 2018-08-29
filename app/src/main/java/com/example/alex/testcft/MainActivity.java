@@ -20,7 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.example.alex.testcft.ImageProcessing.ImageRotater;
+import com.example.alex.testcft.ImageProcessing.ImageRotate;
 import com.example.alex.testcft.ImageProcessing.ProgressTask;
 
 import java.io.IOException;
@@ -128,13 +128,13 @@ public class MainActivity extends AppCompatActivity {
 
         switch (id) {
             case R.id.menu_item_rotate_90_ckw:
-                result = ImageRotater.rotateBitmap(bitmap, 90);
+                result = ImageRotate.rotateBitmap(bitmap, 90);
                 break;
             case R.id.menu_item_rotate_90_ccw:
-                result = ImageRotater.rotateBitmap(bitmap, -90);
+                result = ImageRotate.rotateBitmap(bitmap, -90);
                 break;
             case R.id.menu_item_rotate_180:
-                result = ImageRotater.rotateBitmap(bitmap, 180);
+                result = ImageRotate.rotateBitmap(bitmap, 180);
                 break;
             default: result = bitmap;
             break;

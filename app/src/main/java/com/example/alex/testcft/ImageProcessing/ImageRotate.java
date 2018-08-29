@@ -3,7 +3,7 @@ package com.example.alex.testcft.ImageProcessing;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 
-public class ImageRotater {
+public class ImageRotate {
 
     public static Bitmap rotateBitmap(Bitmap source, float angle)
     {
