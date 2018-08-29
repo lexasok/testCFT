@@ -52,9 +52,6 @@ public class ProgressTask extends AsyncTask<Void, Integer, Void> {
             publishProgress(i);
             SystemClock.sleep(50);
         }
-        if (button != null) {
-
-        }
         return (null);
     }
 

@@ -73,7 +73,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageMain"
             app:layout_constraintTop_toBottomOf="@+id/buttonBlackAndWhite"
-            android:onClick="mirrorImage"/>
+            android:onClick="mirrorImage"
+            />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/resultListRV"
@@ -98,7 +99,7 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageMain"></LinearLayout>
+            app:layout_constraintTop_toBottomOf="@+id/imageMain" />
     </android.support.constraint.ConstraintLayout>
 
 

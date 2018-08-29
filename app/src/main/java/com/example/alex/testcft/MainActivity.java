@@ -38,17 +38,12 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imageMain;
     private ImageView buttonRotate;
     private LinearLayout progressList;
-    private RecyclerView recyclerView;
-    private RecyclerView.LayoutManager layoutManager;
 
     //adapters
     private RVAdapter rvAdapter;
 
     //bitmap
     private Bitmap bitmap;
-
-    //menu
-    private android.support.v7.widget.PopupMenu popupMenu;
 
     //Context
     private Context mContext;
@@ -58,17 +53,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mContext = this;
-
         initViews();
         initRV();
     }
 
     private void initRV() {
-        recyclerView = findViewById(R.id.resultListRV);
-        layoutManager = new LinearLayoutManager(this);
+        RecyclerView recyclerView = findViewById(R.id.resultListRV);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        rvAdapter = new RVAdapter();
+        rvAdapter = new RVAdapter(this);
         recyclerView.setAdapter(rvAdapter);
     }
 
@@ -108,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showPopup(View view) {
-        popupMenu = new android.support.v7.widget.PopupMenu(this, view);
+        android.support.v7.widget.PopupMenu popupMenu = new android.support.v7.widget.PopupMenu(this, view);
         MenuInflater menuInflater = popupMenu.getMenuInflater();
         menuInflater.inflate(R.menu.menu_rotate, popupMenu.getMenu());
         popupMenu.show();
@@ -141,8 +134,6 @@ public class MainActivity extends AppCompatActivity {
             default: result = bitmap;
             break;
         }
-
-
 
         //loading
         load(result);

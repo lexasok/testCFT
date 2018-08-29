@@ -10,6 +10,8 @@
     <string name="menu_title_rotate_90_ckw">90° clockwise</string>
     <string name="menu_title_rotate_90_ccw">90° counterclockwise</string>
     <string name="menu_title_rotate_180">180°</string>
+    <string name="menu_title_delete">delete</string>
+    <string name="menu_title_set_as_main_image">set as main image</string>
 
     <string name="percent"> %</string>
 </resources>
