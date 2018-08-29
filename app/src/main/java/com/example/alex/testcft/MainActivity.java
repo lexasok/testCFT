@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.example.alex.testcft.ImageProcessing.BlackAndWhiteImage;
+import com.example.alex.testcft.ImageProcessing.ImageMirror;
 import com.example.alex.testcft.ImageProcessing.ImageRotate;
 import com.example.alex.testcft.ImageProcessing.ProgressTask;
 
@@ -154,7 +155,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void mirrorImage(View view) {
+        //processing
+        Bitmap result = ImageMirror.make(bitmap);
 
+        //loading
+        load(result);
     }
 
     //loading
