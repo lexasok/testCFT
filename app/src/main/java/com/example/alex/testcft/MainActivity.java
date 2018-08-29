@@ -142,6 +142,8 @@ public class MainActivity extends AppCompatActivity {
             break;
         }
 
+
+
         //loading
         load(result);
     }
@@ -164,6 +166,13 @@ public class MainActivity extends AppCompatActivity {
 
     //loading
     private void load(Bitmap result) {
+        RelativeLayout relativeLayout = (RelativeLayout) getLayoutInflater().inflate(R.layout.loading_row, null);
+        progressList.addView(relativeLayout);
+        new ProgressTask(relativeLayout, rvAdapter, result).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    //method with timeout for button
+    private void load(Bitmap result, View button) {
         RelativeLayout relativeLayout = (RelativeLayout) getLayoutInflater().inflate(R.layout.loading_row, null);
         progressList.addView(relativeLayout);
         new ProgressTask(relativeLayout, rvAdapter, result).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
