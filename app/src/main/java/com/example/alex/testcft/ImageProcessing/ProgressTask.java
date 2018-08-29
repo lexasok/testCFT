@@ -11,7 +11,14 @@ import android.widget.TextView;
 import com.example.alex.testcft.R;
 import com.example.alex.testcft.RVAdapter;
 
+import java.util.Random;
+
 public class ProgressTask extends AsyncTask<Void, Integer, Void> {
+
+    private static final int MIN_DELAY = 5000;
+    private static final int MAX_DELAY = 30000;
+    private static final int MIN_PERCENT = 0;
+    private static final int MAX_PERCENT = 100;
 
     private ProgressBar progressBar;
     private RVAdapter rvAdapter;
@@ -19,6 +26,7 @@ public class ProgressTask extends AsyncTask<Void, Integer, Void> {
     private TextView percentIndicator;
     private RelativeLayout progressContainer;
     private View button;
+    private int delay;
 
     public ProgressTask(RelativeLayout progressContainer, RVAdapter rvAdapter, Bitmap result) {
         this.progressContainer = progressContainer;
@@ -27,30 +35,15 @@ public class ProgressTask extends AsyncTask<Void, Integer, Void> {
         this.rvAdapter = rvAdapter;
         this.result = result;
         this.button = null;
-    }
-
-    public ProgressTask(RelativeLayout progressContainer, RVAdapter rvAdapter, Bitmap result, View button) {
-        this.progressContainer = progressContainer;
-        this.progressBar = progressContainer.findViewById(R.id.progressBar);
-        this.percentIndicator = progressContainer.findViewById(R.id.percentIndicator);
-        this.rvAdapter = rvAdapter;
-        this.result = result;
-        this.button = button;
-    }
-
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        if (button != null) {
-            button.setClickable(false);
-        }
+        Random random = new Random();
+        delay = MIN_DELAY + random.nextInt(MAX_DELAY + 1 - MIN_DELAY);
     }
 
     @Override
     protected Void doInBackground(Void... unused) {
-        for (int i = 0; i < 100; i++) {
+        for (int i = MIN_PERCENT; i < MAX_PERCENT; i++) {
             publishProgress(i);
-            SystemClock.sleep(50);
+            SystemClock.sleep(delay/MAX_PERCENT);
         }
         return (null);
     }
@@ -66,9 +59,5 @@ public class ProgressTask extends AsyncTask<Void, Integer, Void> {
     protected void onPostExecute(Void unused) {
         progressContainer.setVisibility(View.GONE);
         rvAdapter.addBitmap(result);
-        if (button != null) {
-            button.setClickable(true);
-        }
-
     }
 }
