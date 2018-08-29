@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
         Bitmap result = BlackAndWhiteImage.make(bitmap);
 
         //loading
-        load(result);
+        load(result, view);
     }
 
     public void mirrorImage(View view) {
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
         Bitmap result = ImageMirror.make(bitmap);
 
         //loading
-        load(result);
+        load(result, view);
     }
 
     //loading
@@ -175,6 +175,6 @@ public class MainActivity extends AppCompatActivity {
     private void load(Bitmap result, View button) {
         RelativeLayout relativeLayout = (RelativeLayout) getLayoutInflater().inflate(R.layout.loading_row, null);
         progressList.addView(relativeLayout);
-        new ProgressTask(relativeLayout, rvAdapter, result).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        new ProgressTask(relativeLayout, rvAdapter, result, button).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 }

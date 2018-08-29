@@ -26,6 +26,7 @@ public class ProgressTask extends AsyncTask<Void, Integer, Void> {
         this.percentIndicator = progressContainer.findViewById(R.id.percentIndicator);
         this.rvAdapter = rvAdapter;
         this.result = result;
+        this.button = null;
     }
 
     public ProgressTask(RelativeLayout progressContainer, RVAdapter rvAdapter, Bitmap result, View button) {
@@ -38,17 +39,21 @@ public class ProgressTask extends AsyncTask<Void, Integer, Void> {
     }
 
     @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        if (button != null) {
+            button.setClickable(false);
+        }
+    }
+
+    @Override
     protected Void doInBackground(Void... unused) {
         for (int i = 0; i < 100; i++) {
-            if (button != null) {
-                if (i == 0) {
-                    button.setClickable(false);
-                } else if (i == 4) {
-                    button.setClickable(true);
-                }
-            }
             publishProgress(i);
             SystemClock.sleep(50);
+        }
+        if (button != null) {
+
         }
         return (null);
     }
@@ -64,5 +69,9 @@ public class ProgressTask extends AsyncTask<Void, Integer, Void> {
     protected void onPostExecute(Void unused) {
         progressContainer.setVisibility(View.GONE);
         rvAdapter.addBitmap(result);
+        if (button != null) {
+            button.setClickable(true);
+        }
+
     }
 }
