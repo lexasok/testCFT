@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -18,11 +19,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.alex.testcft.DataStructure.Process;
 import com.example.alex.testcft.ImageProcessing.ProgressTask;
 
 import java.io.IOException;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -142,10 +146,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void load(Process process) {
-        ProgressBar progressBar = new ProgressBar(mContext, null, android.R.attr.progressBarStyleHorizontal);
-        progressBar.setProgress(0);
-        progressBar.setMax(100);
-        progressList.addView(progressBar);
-        new ProgressTask(progressBar, rvAdapter, process).execute();
+        RelativeLayout relativeLayout = (RelativeLayout) getLayoutInflater().inflate(R.layout.loading_row, null);
+        progressList.addView(relativeLayout);
+        new ProgressTask(relativeLayout, rvAdapter, process).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
+
+
 }

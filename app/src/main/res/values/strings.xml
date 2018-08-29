@@ -11,4 +11,5 @@
     <string name="menu_title_rotate_90_ccw">90° counterclockwise</string>
     <string name="menu_title_rotate_180">180°</string>
 
+    <string name="percent"> %</string>
 </resources>
