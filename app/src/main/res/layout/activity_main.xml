@@ -56,7 +56,8 @@
             android:textSize="@dimen/size_text_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageMain"
-            app:layout_constraintTop_toBottomOf="@+id/buttonRotate" />
+            app:layout_constraintTop_toBottomOf="@+id/buttonRotate"
+            android:onClick="doBlackAndWhite"/>
 
         <Button
             android:id="@+id/buttonMirrorImage"
@@ -71,7 +72,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/imageMain"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageMain"
-            app:layout_constraintTop_toBottomOf="@+id/buttonBlackAndWhite" />
+            app:layout_constraintTop_toBottomOf="@+id/buttonBlackAndWhite"
+            android:onClick="mirrorImage"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/resultListRV"

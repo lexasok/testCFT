@@ -112,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
         popupMenu.show();
     }
 
+
+    //init buttons methods
     public void openImageBrowser(View view) {
         Intent intent = new Intent(
                 Intent.ACTION_PICK,
@@ -142,11 +144,18 @@ public class MainActivity extends AppCompatActivity {
         load(result);
     }
 
+    public void doBlackAndWhite(View view) {
+
+    }
+
+    public void mirrorImage(View view) {
+
+    }
+
+    //loading
     private void load(Bitmap result) {
         RelativeLayout relativeLayout = (RelativeLayout) getLayoutInflater().inflate(R.layout.loading_row, null);
         progressList.addView(relativeLayout);
         new ProgressTask(relativeLayout, rvAdapter, result).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
-
-
 }
