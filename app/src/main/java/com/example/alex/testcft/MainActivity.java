@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -145,5 +147,40 @@ public class MainActivity extends AppCompatActivity {
         progressBar.setMax(100);
         rvAdapter.addProcess(process);
         progressList.addView(progressBar);
+    }
+
+    class ProgressTast extends AsyncTask<Process, Integer, Void> {
+
+        private ProgressBar progressBar;
+        private RVAdapter rvAdapter;
+        private Process process;
+
+        public ProgressTast(ProgressBar progressBar, RVAdapter rvAdapter, Process process) {
+            this.progressBar = progressBar;
+            this.rvAdapter = rvAdapter;
+            this.process = process;
+        }
+
+        @Override
+        protected Void doInBackground(Process... processes) {
+            for (int i = 0; i < 100; i++) {
+                publishProgress(i);
+                SystemClock.sleep(50);
+            }
+            return (null);
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            progressBar.setProgress(values[0]+1);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            progressBar.setVisibility(View.GONE);
+            rvAdapter.addProcess(process);
+        }
     }
 }
