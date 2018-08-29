@@ -1,6 +1,7 @@
 package com.example.alex.testcft;
 
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
@@ -12,7 +13,6 @@ import android.widget.ProgressBar;
 
 import com.example.alex.testcft.DataStructure.Process;
 import com.example.alex.testcft.ImageProcessing.ImageRotater;
-import com.example.alex.testcft.ImageProcessing.ProgressDelay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +33,7 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ProcessViewHolder processViewHolder, int i) {
         Process process = mData.get(i);
-        Bitmap bitmap = process.getImage();
-
+        Bitmap bitmap;
 
 
         switch (process.getProcessCode()) {
@@ -86,5 +85,7 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
             imageView = itemView.findViewById(R.id.resultImageViewRowRV);
         }
     }
+
+
 
 }
