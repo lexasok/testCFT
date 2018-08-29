@@ -28,6 +28,7 @@ import java.util.List;
 
 public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
 
+    //data
     private List<Process> mData = new ArrayList<>();
     private Context mContext;
 
@@ -46,56 +47,35 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull final ProcessViewHolder processViewHolder, int i) {
+
         Process process = mData.get(i);
         Bitmap bitmap;
-
 
         switch (process.getProcessCode()) {
             case Process.CODE_ROTATE_CKW:
                 bitmap = ImageRotater.RotateBitmap(process.getImage(), 90);
-
-                Glide
-                        .with(mContext)
-                        .load(bitmap)
-                        .listener(new RequestListener<Drawable>() {
-
-                            @Override
-                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-
-                                return false;
-                            }
-
-                            @Override
-                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                ProgressDelay.progressDelay();
-
-                                processViewHolder.progressBar.setVisibility(View.GONE);
-                                return false;
-                            }
-
-
-                        })
-                        .into(processViewHolder.imageView);
                 break;
 
             case Process.CODE_ROTATE_CCW:
                 bitmap = ImageRotater.RotateBitmap(process.getImage(), -90);
-                processViewHolder.imageView.setImageBitmap(bitmap);
                 break;
 
             case Process.CODE_ROTATE_180:
                 bitmap = ImageRotater.RotateBitmap(process.getImage(), 180);
-                processViewHolder.imageView.setImageBitmap(bitmap);
                 break;
 
             case Process.CODE_BLACK_AND_WHITE:
-
+                bitmap = null;
                 break;
 
             case Process.CODE_MIRROR_IMAGE:
-
+                bitmap = null;
                 break;
+            default:
+                bitmap = null;
         }
+        processViewHolder.imageView.setImageBitmap(bitmap);
+
     }
 
 
@@ -105,23 +85,19 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
     }
 
     public void addProcess(Process process) {
-        mData.add(process);
+        mData.add(0, process);
         notifyDataSetChanged();
     }
 
     public class ProcessViewHolder extends RecyclerView.ViewHolder {
 
-        private ProgressBar progressBar;
         private ImageView imageView;
 
         public ProcessViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            progressBar = itemView.findViewById(R.id.progressBarRowRV);
             imageView = itemView.findViewById(R.id.resultImageViewRowRV);
         }
     }
-
-
 
 }
