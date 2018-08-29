@@ -6,6 +6,7 @@
 
     <!--text-->
     <dimen name="size_text_button">12sp</dimen>
+    <dimen name="padding_s">8dp</dimen>
 
 
 </resources>
