@@ -21,9 +21,11 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
     //data
     private List<Bitmap> mData = new ArrayList<>();
     private Context mContext;
+    private ImageView imageMain;
 
-    RVAdapter(Context context) {
+    RVAdapter(Context context, ImageView imageMain) {
         mContext = context;
+
     }
 
     @NonNull
@@ -36,14 +38,14 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ProcessViewHolder processViewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ProcessViewHolder processViewHolder, final int i) {
 
         Bitmap bitmap = mData.get(i);
         processViewHolder.imageView.setImageBitmap(bitmap);
         processViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPopup(v);
+                showPopup(v,i);
             }
         });
 
@@ -71,13 +73,21 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
         }
     }
 
-    public void showPopup(View view) {
-        android.support.v7.widget.PopupMenu popupMenu = new android.support.v7.widget.PopupMenu(mContext, view);
+    public void showPopup(final View view, final int pos) {
+        final android.support.v7.widget.PopupMenu popupMenu = new android.support.v7.widget.PopupMenu(mContext, view);
         MenuInflater menuInflater = popupMenu.getMenuInflater();
-        menuInflater.inflate(R.menu.menu_rotate, popupMenu.getMenu());
+        menuInflater.inflate(R.menu.menu_rv_item_popup, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.delete:
+                        mData.remove(pos);
+                        notifyDataSetChanged();
+                        break;
+                    case R.id.setAsMainImage:
+                        break;
+                }
                 return false;
             }
         });

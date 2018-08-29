@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.resultListRV);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        rvAdapter = new RVAdapter(this);
+        rvAdapter = new RVAdapter(this, imageMain);
         recyclerView.setAdapter(rvAdapter);
     }
 
