@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -343,7 +344,7 @@ public class MainActivity extends AppCompatActivity {
                 +".jpg";
 
         try {
-            File file = new File(this.getExternalCacheDir(), name);
+            File file = new File(this.getCacheDir(), name);
 
             outputStream = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
@@ -351,10 +352,9 @@ public class MainActivity extends AppCompatActivity {
             outputStream.flush();
             outputStream.close();
 
-            //registration
-            MediaStore.Images.Media.insertImage(
-                    getContentResolver(), file.getAbsolutePath(), file.getName(),  file.getName());
-            return name;
+            Toast.makeText(getApplicationContext(), file.getAbsolutePath(), Toast.LENGTH_LONG).show();
+
+            return file.getName();
 
         } catch (Exception e) {
             e.printStackTrace();
