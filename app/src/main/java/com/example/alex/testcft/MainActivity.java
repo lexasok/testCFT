@@ -9,13 +9,16 @@ import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -201,7 +204,11 @@ public class MainActivity extends AppCompatActivity {
         super.onTrimMemory(level);
     }
 
-    public void showDialog() {
-
+    public void showDialog(View view) {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(
+                R.layout.dialog_loading_image, (ViewGroup) findViewById(R.id.containerMain));
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(layout);
     }
 }
