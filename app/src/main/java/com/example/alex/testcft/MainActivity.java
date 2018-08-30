@@ -1,6 +1,5 @@
 package com.example.alex.testcft;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -10,10 +9,10 @@ import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -28,7 +27,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -45,8 +43,6 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int ID_DIALOG = 1;
-
     //constants
     private static final int RESULT_LOAD_IMAGE = 1;
 
@@ -54,13 +50,9 @@ public class MainActivity extends AppCompatActivity {
     private ConstraintLayout containerContentMain;
     private Button buttonChooseImage;
     private ImageView imageMain;
-    private ImageView buttonRotate;
     private LinearLayout progressList;
-    private RelativeLayout containerMain;
     private EditText urlInput;
     private ProgressBar urlLoadingProgress;
-    private TextView buttonDialogLoadFromFile;
-    private TextView buttonDialogLoadFromCamera;
     private LinearLayout dialogContainer;
 
     //adapters
@@ -92,7 +84,8 @@ public class MainActivity extends AppCompatActivity {
             Uri imageUri = data.getData();
 
             try {
-                imageMain.setImageBitmap(MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri));
+                imageMain.setImageBitmap(
+                        MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -102,11 +95,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        containerMain = findViewById(R.id.containerMain);
         containerContentMain = findViewById(R.id.containerContentMain);
         buttonChooseImage = findViewById(R.id.buttonChooseImage);
         imageMain = findViewById(R.id.imageMain);
-        buttonRotate = findViewById(R.id.buttonRotate);
+        //buttonRotate = findViewById(R.id.buttonRotate);
         progressList = findViewById(R.id.progressList);
         urlLoadingProgress = findViewById(R.id.urlLoadingProgressBar);
     }
@@ -120,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showPopup(View view) {
-        android.support.v7.widget.PopupMenu popupMenu = new android.support.v7.widget.PopupMenu(this, view);
+        PopupMenu popupMenu = new PopupMenu(this, view);
         MenuInflater menuInflater = popupMenu.getMenuInflater();
         menuInflater.inflate(R.menu.menu_rotate, popupMenu.getMenu());
         popupMenu.show();
@@ -199,11 +191,13 @@ public class MainActivity extends AppCompatActivity {
 
     //loading
     private void load(Bitmap result) {
-        RelativeLayout relativeLayout = (RelativeLayout) getLayoutInflater().inflate(R.layout.loading_row, null);
+        RelativeLayout relativeLayout = (RelativeLayout) getLayoutInflater()
+                .inflate(R.layout.loading_row, null);
         progressList.addView(relativeLayout);
 
         //to real multithreading
-        new ProgressTask(relativeLayout, rvAdapter, result).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        new ProgressTask(relativeLayout, rvAdapter, result)
+                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         //to one second thread
 //        new ProgressTask(relativeLayout, rvAdapter, result).execute();
@@ -234,10 +228,6 @@ public class MainActivity extends AppCompatActivity {
         View layout = inflater.inflate(
                 R.layout.dialog_loading_image, (ViewGroup) findViewById(R.id.containerMain));
         urlInput = layout.findViewById(R.id.dialogLoadFromURLEditText);
-
-        //init buttons
-        buttonDialogLoadFromFile = layout.findViewById(R.id.buttonDialogLaodFromFile);
-        buttonDialogLoadFromCamera = layout.findViewById(R.id.buttonDialogLoadFromCamera);
         dialogContainer = layout.findViewById(R.id.loadImageDialogContainer);
 
         revertViewsByDialog();
@@ -272,20 +262,24 @@ public class MainActivity extends AppCompatActivity {
 
     public void loadFromURL(String query) {
         urlLoadingProgress.setVisibility(View.VISIBLE);
-
+        revertViewsByDialog();
         Glide
                 .with(this)
                 .load(query)
                 .listener(new RequestListener<Drawable>() {
                     @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model
+                            , Target<Drawable> target, boolean isFirstResource) {
+                        urlLoadingProgress.setVisibility(View.GONE);
+                        revertViewsByDialog();
                         showWrongUrlToast();
                         return false;
                     }
 
                     @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        revertViewsByDialog();
+                    public boolean onResourceReady(Drawable resource, Object model
+                            , Target<Drawable> target, DataSource dataSource
+                            , boolean isFirstResource) {
                         urlLoadingProgress.setVisibility(View.GONE);
                         return false;
                     }
