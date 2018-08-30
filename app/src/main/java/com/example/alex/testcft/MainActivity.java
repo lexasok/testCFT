@@ -60,12 +60,6 @@ public class MainActivity extends AppCompatActivity {
     //adapters
     private RVAdapter rvAdapter;
 
-    //bitmap
-//    private Bitmap bitmap;
-
-    //Context
-    private Context mContext;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
         imageMain = findViewById(R.id.imageMain);
         buttonRotate = findViewById(R.id.buttonRotate);
         progressList = findViewById(R.id.progressList);
-
         urlLoadingProgress = findViewById(R.id.urlLoadingProgressBar);
     }
 
@@ -230,13 +223,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showDialog(View view) {
-        hideLayoutsByDialog();
         LayoutInflater inflater = getLayoutInflater();
         View layout = inflater.inflate(
                 R.layout.dialog_loading_image, (ViewGroup) findViewById(R.id.containerMain));
         urlInput = layout.findViewById(R.id.dialogLoadFromURLEditText);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(layout);
+        hideLayoutsByDialog();
     }
 
     public void hideLayoutsByDialog() {
