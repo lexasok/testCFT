@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
     //constants
     private static final int RESULT_LOAD_IMAGE = 1;
+    private static final int RESULT_LOAD_IMAGE_FROM_CAMERA = 2;
+    private static final String KEY_EXTRAS_GET_PHOTO = "data";
 
     //view
     private ConstraintLayout containerContentMain;
@@ -92,6 +94,14 @@ public class MainActivity extends AppCompatActivity {
 
             showContent();
         }
+
+        if (requestCode == RESULT_LOAD_IMAGE_FROM_CAMERA && resultCode == RESULT_OK) {
+            assert data != null;
+            Bundle extras = data.getExtras();
+            assert extras != null;
+            Bitmap imageBitmap = (Bitmap) extras.get(KEY_EXTRAS_GET_PHOTO);
+            imageMain.setImageBitmap(imageBitmap);
+        }
     }
 
     private void initViews() {
@@ -130,8 +140,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openCamera(View view) {
-
+        revertViewsByDialog();
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, RESULT_LOAD_IMAGE_FROM_CAMERA);
+        }
     }
+
 
     public void rotate(MenuItem item) {
         System.gc();
