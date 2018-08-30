@@ -86,9 +86,11 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
                 switch (menuItem.getItemId()) {
                     case R.id.delete:
                         mData.remove(pos);
+                        System.gc();
                         notifyDataSetChanged();
                         break;
                     case R.id.setAsMainImage:
+                        System.gc();
                         imageMain.setImageBitmap(mData.get(pos));
                         break;
                 }
@@ -101,7 +103,7 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
     @Override
     public void onViewDetachedFromWindow(@NonNull ProcessViewHolder holder) {
         super.onViewDetachedFromWindow(holder);
-
+        System.gc();
         holder.imageView.setOnClickListener(null);
     }
 }
