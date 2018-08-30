@@ -17,6 +17,7 @@ import com.example.alex.testcft.ImageProcessing.ProgressTask;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
 
@@ -62,6 +63,11 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
 
     public void addBitmap(Bitmap bitmap) {
         mData.add(0, bitmap);
+        notifyDataSetChanged();
+    }
+
+    public void addBitmapsList(List<Bitmap> bitmaps) {
+        mData.addAll(0, bitmaps);
         notifyDataSetChanged();
     }
 
