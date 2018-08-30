@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         imageMain = findViewById(R.id.imageMain);
         buttonRotate = findViewById(R.id.buttonRotate);
         progressList = findViewById(R.id.progressList);
-        urlInput = findViewById(R.id.dialogLoadFromURLEditText);
+
         urlLoadingProgress = findViewById(R.id.urlLoadingProgressBar);
     }
 
@@ -234,6 +234,7 @@ public class MainActivity extends AppCompatActivity {
         LayoutInflater inflater = getLayoutInflater();
         View layout = inflater.inflate(
                 R.layout.dialog_loading_image, (ViewGroup) findViewById(R.id.containerMain));
+        urlInput = layout.findViewById(R.id.dialogLoadFromURLEditText);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(layout);
     }
@@ -251,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_ENTER) {
 
             String query = urlInput.getText().toString();
@@ -260,8 +261,9 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             } else {
                 loadFromURL(query);
+                return true;
             }
-        }
+        } else super.onKeyUp(keyCode, event);
         return true;
     }
 
@@ -276,6 +278,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                         showWrongUrlToast();
+                        hideLayoutsByDialog();
                         return false;
                     }
 
