@@ -12,6 +12,9 @@
     <string name="menu_title_rotate_180">180°</string>
     <string name="menu_title_delete">delete</string>
     <string name="menu_title_set_as_main_image">set as main image</string>
+    <string name="dialog_item_browser_loading_image">load from file</string>
+    <string name="dialog_item_camera_loading_image">camera</string>
+    <string name="dialog_item_url_loading_image">load image from URL</string>
 
     <!--Toasts-->
     <string name="toast_out_of_memory">Out of memory error, please wait…</string>

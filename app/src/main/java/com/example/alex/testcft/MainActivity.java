@@ -197,7 +197,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onTrimMemory(int level) {
-        super.onTrimMemory(level);
         System.gc();
+        super.onTrimMemory(level);
+    }
+
+    public void showDialog() {
+
     }
 }
