@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.alex.testcft.ImageProcessing.ProgressTask;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,4 +98,10 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
         popupMenu.show();
     }
 
+    @Override
+    public void onViewDetachedFromWindow(@NonNull ProcessViewHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+
+        holder.imageView.setOnClickListener(null);
+    }
 }

@@ -119,47 +119,67 @@ public class MainActivity extends AppCompatActivity {
 
     public void rotate(MenuItem item) {
         int id = item.getItemId();
-        Bitmap result;
+            Bitmap result;
 
-        switch (id) {
-            case R.id.menu_item_rotate_90_ckw:
-                result = ImageRotate.rotateBitmap(bitmap, 90);
-                break;
-            case R.id.menu_item_rotate_90_ccw:
-                result = ImageRotate.rotateBitmap(bitmap, -90);
-                break;
-            case R.id.menu_item_rotate_180:
-                result = ImageRotate.rotateBitmap(bitmap, 180);
-                break;
-            default: result = bitmap;
-            break;
-        }
+            try {
+                switch (id) {
+                    case R.id.menu_item_rotate_90_ckw:
+                        result = ImageRotate.rotateBitmap(bitmap, 90);
+                        break;
+                    case R.id.menu_item_rotate_90_ccw:
+                        result = ImageRotate.rotateBitmap(bitmap, -90);
+                        break;
+                    case R.id.menu_item_rotate_180:
+                        result = ImageRotate.rotateBitmap(bitmap, 180);
+                        break;
+                    default: result = bitmap;
+                        break;
+                }
 
-        //loading
-        load(result);
+                //loading
+                load(result);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
     }
 
     public void doBlackAndWhite(View view) {
-        //processing
-        Bitmap result = BlackAndWhiteImage.make(bitmap);
+        try {
+            //processing
+            Bitmap result = BlackAndWhiteImage.make(bitmap);
 
-        //loading
-        load(result);
+            //loading
+            load(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void mirrorImage(View view) {
-        //processing
-        Bitmap result = ImageMirror.make(bitmap);
+        try {
+            //processing
+            Bitmap result = ImageMirror.make(bitmap);
 
-        //loading
-        load(result);
+            //loading
+            load(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     //loading
     private void load(Bitmap result) {
         RelativeLayout relativeLayout = (RelativeLayout) getLayoutInflater().inflate(R.layout.loading_row, null);
         progressList.addView(relativeLayout);
+
+        //to real multithreading
         new ProgressTask(relativeLayout, rvAdapter, result).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+        //to one second thread
+//        new ProgressTask(relativeLayout, rvAdapter, result).execute();
     }
 
     public void setImageMain(Bitmap bitmap) {
