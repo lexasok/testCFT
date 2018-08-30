@@ -5,6 +5,7 @@
     <string name="button_black_and_white">black and white</string>
     <string name="button_mirror_image">mirror image</string>
     <string name="button_choose_image">choose image</string>
+    <string name="button_title_history">history</string>
 
     <!--menu titles-->
     <string name="menu_title_rotate_90_ckw">90° clockwise</string>

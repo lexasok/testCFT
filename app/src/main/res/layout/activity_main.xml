@@ -29,9 +29,11 @@
             android:id="@+id/imageMain"
             android:layout_width="@dimen/size_image_main"
             android:layout_height="@dimen/size_image_main"
+            android:layout_marginBottom="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:onClick="showDialog"
+            app:layout_constraintBottom_toBottomOf="@+id/buttonHistory"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,7 +47,7 @@
             android:onClick="showPopup"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageMain"
-            app:layout_constraintTop_toTopOf="@+id/imageMain"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@android:drawable/ic_menu_rotate" />
 
         <Button
@@ -66,14 +68,12 @@
             android:id="@+id/buttonMirrorImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:onClick="mirrorImage"
             android:text="@string/button_mirror_image"
             android:textSize="@dimen/size_text_button"
-            app:layout_constraintBottom_toBottomOf="@+id/imageMain"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageMain"
             app:layout_constraintTop_toBottomOf="@+id/buttonBlackAndWhite" />
@@ -101,7 +101,7 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageMain" />
+            app:layout_constraintTop_toBottomOf="@+id/buttonHistory" />
 
         <ProgressBar
             android:id="@+id/urlLoadingProgressBar"
@@ -117,6 +117,19 @@
             app:layout_constraintEnd_toEndOf="@+id/imageMain"
             app:layout_constraintStart_toStartOf="@+id/imageMain"
             app:layout_constraintTop_toTopOf="@+id/imageMain" />
+
+        <Button
+            android:id="@+id/buttonHistory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/button_title_history"
+            android:textSize="@dimen/size_text_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageMain"
+            app:layout_constraintTop_toBottomOf="@+id/buttonMirrorImage" />
     </android.support.constraint.ConstraintLayout>
 
 
