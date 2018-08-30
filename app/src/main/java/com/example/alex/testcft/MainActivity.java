@@ -129,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
 
     //init buttons methods
     public void openImageBrowser(View view) {
+        revertViewsByDialog();
         Intent intent = new Intent(
                 Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
