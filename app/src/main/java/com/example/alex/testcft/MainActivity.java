@@ -224,6 +224,7 @@ public class MainActivity extends AppCompatActivity {
 
     //loading
     private void load(Bitmap result) {
+        saveToHistory(result);
         RelativeLayout relativeLayout = (RelativeLayout) getLayoutInflater()
                 .inflate(R.layout.loading_row, null);
         progressList.addView(relativeLayout);
@@ -317,8 +318,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void saveToHistory(Bitmap bitmap) {
-        Set<String> imagesSet = new HashSet<>();
-        imagesSet = preferences.getStringSet(KEY_IMAGES_URI_APP_PREFERENCES, new HashSet<String>());
+        Set<String> imagesSet = preferences.getStringSet(
+                KEY_IMAGES_URI_APP_PREFERENCES, new HashSet<String>());
         String uri = saveBitmapToSDCashes(bitmap);
         if (uri != null) {
             imagesSet.add(saveBitmapToSDCashes(bitmap));
