@@ -1,6 +1,6 @@
 package com.example.alex.testcft;
 
-import android.content.Context;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -44,6 +45,8 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int ID_DIALOG = 1;
+
     //constants
     private static final int RESULT_LOAD_IMAGE = 1;
 
@@ -56,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
     private RelativeLayout containerMain;
     private EditText urlInput;
     private ProgressBar urlLoadingProgress;
+    private TextView buttonDialogLoadFromFile;
+    private TextView buttonDialogLoadFromCamera;
+    private LinearLayout dialogContainer;
 
     //adapters
     private RVAdapter rvAdapter;
@@ -227,21 +233,24 @@ public class MainActivity extends AppCompatActivity {
         View layout = inflater.inflate(
                 R.layout.dialog_loading_image, (ViewGroup) findViewById(R.id.containerMain));
         urlInput = layout.findViewById(R.id.dialogLoadFromURLEditText);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(layout);
-        hideLayoutsByDialog();
+
+        //init buttons
+        buttonDialogLoadFromFile = layout.findViewById(R.id.buttonDialogLaodFromFile);
+        buttonDialogLoadFromCamera = layout.findViewById(R.id.buttonDialogLoadFromCamera);
+        dialogContainer = layout.findViewById(R.id.loadImageDialogContainer);
+
+        revertViewsByDialog();
     }
 
-    public void hideLayoutsByDialog() {
-        if (buttonChooseImage.getVisibility() == View.VISIBLE
-                || containerContentMain.getVisibility() == View.VISIBLE) {
-            buttonChooseImage.setVisibility(View.GONE);
+    private void revertViewsByDialog() {
+        if (dialogContainer.getVisibility() == View.GONE) {
+            dialogContainer.setVisibility(View.VISIBLE);
             containerContentMain.setVisibility(View.GONE);
+            buttonChooseImage.setVisibility(View.GONE);
+        } else {
+            dialogContainer.setVisibility(View.GONE);
+            containerContentMain.setVisibility(View.VISIBLE);
         }
-    }
-
-    public void showLayoutsByDialog() {
-        containerContentMain.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -261,7 +270,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadFromURL(String query) {
-        showLayoutsByDialog();
         urlLoadingProgress.setVisibility(View.VISIBLE);
 
         Glide
@@ -271,12 +279,12 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                         showWrongUrlToast();
-                        hideLayoutsByDialog();
                         return false;
                     }
 
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        revertViewsByDialog();
                         urlLoadingProgress.setVisibility(View.GONE);
                         return false;
                     }
