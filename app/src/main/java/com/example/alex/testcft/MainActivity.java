@@ -362,8 +362,6 @@ public class MainActivity extends AppCompatActivity {
             outputStream.flush();
             outputStream.close();
 
-            Toast.makeText(getApplicationContext(), file.getAbsolutePath(), Toast.LENGTH_LONG).show();
-
             return file.getAbsolutePath();
 
         } catch (Exception e) {
