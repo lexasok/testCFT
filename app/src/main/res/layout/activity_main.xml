@@ -6,6 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:visibility="visible"
     tools:context=".MainActivity">
 
     <Button
@@ -54,12 +55,12 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:onClick="doBlackAndWhite"
             android:text="@string/button_black_and_white"
             android:textSize="@dimen/size_text_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageMain"
-            app:layout_constraintTop_toBottomOf="@+id/buttonRotate"
-            android:onClick="doBlackAndWhite"/>
+            app:layout_constraintTop_toBottomOf="@+id/buttonRotate" />
 
         <Button
             android:id="@+id/buttonMirrorImage"
@@ -69,14 +70,13 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:onClick="mirrorImage"
             android:text="@string/button_mirror_image"
             android:textSize="@dimen/size_text_button"
             app:layout_constraintBottom_toBottomOf="@+id/imageMain"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageMain"
-            app:layout_constraintTop_toBottomOf="@+id/buttonBlackAndWhite"
-            android:onClick="mirrorImage"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/buttonBlackAndWhite" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/resultListRV"
@@ -102,6 +102,21 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageMain" />
+
+        <ProgressBar
+            android:id="@+id/urlLoadingProgressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/imageMain"
+            app:layout_constraintEnd_toEndOf="@+id/imageMain"
+            app:layout_constraintStart_toStartOf="@+id/imageMain"
+            app:layout_constraintTop_toTopOf="@+id/imageMain" />
     </android.support.constraint.ConstraintLayout>
 
 

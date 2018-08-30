@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
@@ -14,17 +15,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.alex.testcft.ImageProcessing.BlackAndWhiteImage;
 import com.example.alex.testcft.ImageProcessing.ImageMirror;
 import com.example.alex.testcft.ImageProcessing.ImageRotate;
@@ -38,11 +48,14 @@ public class MainActivity extends AppCompatActivity {
     private static final int RESULT_LOAD_IMAGE = 1;
 
     //view
-    private ConstraintLayout containerMain;
+    private ConstraintLayout containerContentMain;
     private Button buttonChooseImage;
     private ImageView imageMain;
     private ImageView buttonRotate;
     private LinearLayout progressList;
+    private RelativeLayout containerMain;
+    private EditText urlInput;
+    private ProgressBar urlLoadingProgress;
 
     //adapters
     private RVAdapter rvAdapter;
@@ -89,18 +102,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        containerMain = findViewById(R.id.containerContentMain);
+        containerMain = findViewById(R.id.containerMain);
+        containerContentMain = findViewById(R.id.containerContentMain);
         buttonChooseImage = findViewById(R.id.buttonChooseImage);
         imageMain = findViewById(R.id.imageMain);
         buttonRotate = findViewById(R.id.buttonRotate);
         progressList = findViewById(R.id.progressList);
+        urlInput = findViewById(R.id.dialogLoadFromURLEditText);
+        urlLoadingProgress = findViewById(R.id.urlLoadingProgressBar);
     }
 
     //show or hide views
     public void showContent() {
         if (buttonChooseImage.getVisibility() == View.VISIBLE) {
             buttonChooseImage.setVisibility(View.GONE);
-            containerMain.setVisibility(View.VISIBLE);
+            containerContentMain.setVisibility(View.VISIBLE);
         }
     }
 
@@ -119,6 +135,10 @@ public class MainActivity extends AppCompatActivity {
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
         startActivityForResult(intent, RESULT_LOAD_IMAGE);
+    }
+
+    public void openCamera(View view) {
+
     }
 
     public void rotate(MenuItem item) {
@@ -198,6 +218,11 @@ public class MainActivity extends AppCompatActivity {
                 getApplicationContext(), R.string.toast_out_of_memory, Toast.LENGTH_SHORT).show();
     }
 
+    public void showWrongUrlToast() {
+        Toast.makeText(
+                getApplicationContext(), R.string.toast_wrong_url, Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     public void onTrimMemory(int level) {
         System.gc();
@@ -205,10 +230,60 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showDialog(View view) {
+        hideLayoutsByDialog();
         LayoutInflater inflater = getLayoutInflater();
         View layout = inflater.inflate(
                 R.layout.dialog_loading_image, (ViewGroup) findViewById(R.id.containerMain));
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(layout);
+    }
+
+    public void hideLayoutsByDialog() {
+        if (buttonChooseImage.getVisibility() == View.VISIBLE
+                || containerContentMain.getVisibility() == View.VISIBLE) {
+            buttonChooseImage.setVisibility(View.GONE);
+            containerContentMain.setVisibility(View.GONE);
+        }
+    }
+
+    public void showLayoutsByDialog() {
+        containerContentMain.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_ENTER) {
+
+            String query = urlInput.getText().toString();
+
+            if (TextUtils.isEmpty(query)) {
+                return false;
+            } else {
+                loadFromURL(query);
+            }
+        }
+        return true;
+    }
+
+    public void loadFromURL(String query) {
+        showLayoutsByDialog();
+        urlLoadingProgress.setVisibility(View.VISIBLE);
+
+        Glide
+                .with(this)
+                .load(query)
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        showWrongUrlToast();
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        urlLoadingProgress.setVisibility(View.GONE);
+                        return false;
+                    }
+                }).into(imageMain);
     }
 }

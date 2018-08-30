@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
     <TextView
         android:id="@+id/buttonDialogLaodFromFile"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginStart="32dp"
@@ -18,13 +19,12 @@
         android:gravity="center"
         android:padding="@dimen/padding_s"
         android:text="@string/dialog_item_browser_loading_image"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:onClick="openImageBrowser"
+        />
 
     <TextView
         android:id="@+id/buttonDialogLoadFromCamera"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginStart="32dp"
@@ -33,22 +33,22 @@
         android:gravity="center"
         android:padding="@dimen/padding_s"
         android:text="@string/dialog_item_camera_loading_image"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonDialogLaodFromFile" />
+        android:onClick="openCamera"
+        />
 
     <EditText
         android:id="@+id/dialogLoadFromURLEditText"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
+        android:ems="10"
         android:gravity="center"
         android:hint="@string/dialog_item_url_loading_image"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonDialogLoadFromCamera" />
+        android:imeOptions="actionGo"
+        android:inputType="text|textWebEmailAddress"
+        android:singleLine="true"
+        />
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
