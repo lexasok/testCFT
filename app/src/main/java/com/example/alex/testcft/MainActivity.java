@@ -223,6 +223,7 @@ public class MainActivity extends AppCompatActivity {
         imageMain.setImageBitmap(bitmap);
     }
 
+    //Toasts
     public void showOutOfMemoryToast() {
         Toast.makeText(
                 getApplicationContext(), R.string.toast_out_of_memory, Toast.LENGTH_SHORT).show();
@@ -231,6 +232,11 @@ public class MainActivity extends AppCompatActivity {
     public void showWrongUrlToast() {
         Toast.makeText(
                 getApplicationContext(), R.string.toast_wrong_url, Toast.LENGTH_SHORT).show();
+    }
+
+    public void showHistoryToast() {
+        Toast.makeText(
+                getApplicationContext(), R.string.toast_history, Toast.LENGTH_SHORT).show();
     }
 
     @Override

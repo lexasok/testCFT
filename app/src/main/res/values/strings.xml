@@ -20,4 +20,5 @@
     <!--Toasts-->
     <string name="toast_out_of_memory">Out of memory error, please wait…</string>
     <string name="toast_wrong_url">Wrong URL</string>
+    <string name="toast_history">history added</string>
 </resources>
