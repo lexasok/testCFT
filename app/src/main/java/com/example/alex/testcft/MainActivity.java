@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int RESULT_LOAD_IMAGE = 1;
     private static final int RESULT_LOAD_IMAGE_FROM_CAMERA = 2;
     private static final String KEY_EXTRAS_GET_PHOTO = "data";
+    private static final String APP_PREFERENCES = "images_preferences";
+    private static final String KEY_IMAGES_UTI_APP_PREFERENCES = "images_URI";
 
     //view
     private ConstraintLayout containerContentMain;
