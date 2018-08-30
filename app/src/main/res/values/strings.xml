@@ -13,5 +13,6 @@
     <string name="menu_title_delete">delete</string>
     <string name="menu_title_set_as_main_image">set as main image</string>
 
-    <string name="percent"> %</string>
+    <!--Toasts-->
+    <string name="toast_out_of_memory">Out of memory error, please wait…</string>
 </resources>

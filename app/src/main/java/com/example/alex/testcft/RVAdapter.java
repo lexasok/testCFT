@@ -23,11 +23,11 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
     //data
     private List<Bitmap> mData = new ArrayList<>();
     private Context mContext;
-    private MainActivity mainActivity;
+    private ImageView imageMain;
 
-    RVAdapter(Context context, MainActivity mainActivity) {
+    RVAdapter(Context context, ImageView imageMain) {
         mContext = context;
-        this.mainActivity = mainActivity;
+        this.imageMain = imageMain;
 
     }
 
@@ -89,7 +89,7 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
                         notifyDataSetChanged();
                         break;
                     case R.id.setAsMainImage:
-                        mainActivity.setImageMain(mData.get(pos));
+                        imageMain.setImageBitmap(mData.get(pos));
                         break;
                 }
                 return false;

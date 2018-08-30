@@ -3,6 +3,7 @@ package com.example.alex.testcft;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
@@ -19,6 +20,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.example.alex.testcft.ImageProcessing.BlackAndWhiteImage;
 import com.example.alex.testcft.ImageProcessing.ImageMirror;
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private RVAdapter rvAdapter;
 
     //bitmap
-    private Bitmap bitmap;
+//    private Bitmap bitmap;
 
     //Context
     private Context mContext;
@@ -61,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.resultListRV);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        rvAdapter = new RVAdapter(this, this);
+        rvAdapter = new RVAdapter(this, imageMain);
         recyclerView.setAdapter(rvAdapter);
     }
 
@@ -74,8 +76,7 @@ public class MainActivity extends AppCompatActivity {
             Uri imageUri = data.getData();
 
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-                imageMain.setImageBitmap(bitmap);
+                imageMain.setImageBitmap(MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -119,55 +120,55 @@ public class MainActivity extends AppCompatActivity {
 
     public void rotate(MenuItem item) {
         int id = item.getItemId();
-            Bitmap result;
+        BitmapDrawable bitmapDrawable = (BitmapDrawable) imageMain.getDrawable();
+        Bitmap bitmapToProcess = bitmapDrawable.getBitmap();
+        Bitmap result;
+        switch (id) {
+            case R.id.menu_item_rotate_90_ckw:
+                result = ImageRotate.rotateBitmap(bitmapToProcess, 90);
+                break;
+            case R.id.menu_item_rotate_90_ccw:
+                result = ImageRotate.rotateBitmap(bitmapToProcess, -90);
+                break;
+            case R.id.menu_item_rotate_180:
+                result = ImageRotate.rotateBitmap(bitmapToProcess, 180);
+                break;
+            default: result = bitmapToProcess;
+                break;
+        }
 
-            try {
-                switch (id) {
-                    case R.id.menu_item_rotate_90_ckw:
-                        result = ImageRotate.rotateBitmap(bitmap, 90);
-                        break;
-                    case R.id.menu_item_rotate_90_ccw:
-                        result = ImageRotate.rotateBitmap(bitmap, -90);
-                        break;
-                    case R.id.menu_item_rotate_180:
-                        result = ImageRotate.rotateBitmap(bitmap, 180);
-                        break;
-                    default: result = bitmap;
-                        break;
-                }
-
-                //loading
-                load(result);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
+        //loading
+        if (result != null) {
+            load(result);
+        } else showOutOfMemoryToast();
     }
 
     public void doBlackAndWhite(View view) {
-        try {
-            //processing
-            Bitmap result = BlackAndWhiteImage.make(bitmap);
 
-            //loading
+        //processing
+        Bitmap result = BlackAndWhiteImage.make(
+                ((BitmapDrawable)imageMain.getDrawable()).getBitmap()
+        );
+
+        //loading
+        if (result != null) {
             load(result);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else  {
+            showOutOfMemoryToast();
         }
+
 
     }
 
     public void mirrorImage(View view) {
-        try {
-            //processing
-            Bitmap result = ImageMirror.make(bitmap);
+        //processing
+        Bitmap result = ImageMirror.make(
+                ((BitmapDrawable)imageMain.getDrawable()).getBitmap());
 
-            //loading
+        //loading
+        if (result != null) {
             load(result);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        } else showOutOfMemoryToast();
     }
 
     //loading
@@ -184,6 +185,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void setImageMain(Bitmap bitmap) {
         imageMain.setImageBitmap(bitmap);
-        this.bitmap = bitmap;
+    }
+
+    public void showOutOfMemoryToast() {
+        Toast.makeText(
+                getApplicationContext(), R.string.toast_out_of_memory, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
     }
 }

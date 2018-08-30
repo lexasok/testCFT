@@ -12,19 +12,26 @@ public class BlackAndWhiteImage {
         int width, height;
         height = bitmap.getHeight();
         width = bitmap.getWidth();
+        Bitmap blackAndWhite = null;
 
-        Bitmap blackAndWhite = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        try {
+            blackAndWhite = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        } catch (OutOfMemoryError e) {
+            e.printStackTrace();
+        }
+        if (blackAndWhite != null) {
 
-        Canvas canvas = new Canvas(blackAndWhite);
+            Canvas canvas = new Canvas(blackAndWhite);
 
-        Paint paint = new Paint();
+            Paint paint = new Paint();
 
-        ColorMatrix colorMatrix = new ColorMatrix();
-        colorMatrix.setSaturation(0);
-        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-        paint.setColorFilter(filter);
+            ColorMatrix colorMatrix = new ColorMatrix();
+            colorMatrix.setSaturation(0);
+            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
+            paint.setColorFilter(filter);
 
-        canvas.drawBitmap(bitmap, 0, 0, paint);
+            canvas.drawBitmap(bitmap, 0, 0, paint);
+        }
 
         return blackAndWhite;
     }
