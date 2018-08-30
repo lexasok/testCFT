@@ -1,6 +1,7 @@
 package com.example.alex.testcft;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -16,6 +17,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.text.format.Time;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -40,7 +42,12 @@ import com.example.alex.testcft.ImageProcessing.ImageMirror;
 import com.example.alex.testcft.ImageProcessing.ImageRotate;
 import com.example.alex.testcft.ImageProcessing.ProgressTask;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int RESULT_LOAD_IMAGE_FROM_CAMERA = 2;
     private static final String KEY_EXTRAS_GET_PHOTO = "data";
     private static final String APP_PREFERENCES = "images_preferences";
-    private static final String KEY_IMAGES_UTI_APP_PREFERENCES = "images_URI";
+    private static final String KEY_IMAGES_URI_APP_PREFERENCES = "images_URI";
 
     //view
     private ConstraintLayout containerContentMain;
@@ -63,11 +70,15 @@ public class MainActivity extends AppCompatActivity {
     //adapters
     private RVAdapter rvAdapter;
 
+    //preferences
+    private SharedPreferences preferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initPreferences();
         initViews();
         initRV();
     }
@@ -78,6 +89,10 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         rvAdapter = new RVAdapter(this, imageMain);
         recyclerView.setAdapter(rvAdapter);
+    }
+
+    private void initPreferences() {
+        preferences = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
     }
 
     @Override
@@ -268,22 +283,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_ENTER) {
 
-            String query = urlInput.getText().toString();
 
-            if (TextUtils.isEmpty(query)) {
-                return false;
-            } else {
-                loadFromURL(query);
-                return true;
-            }
-        } else super.onKeyUp(keyCode, event);
-        return true;
-    }
-
+    //loading methods
     public void loadFromURL(String query) {
         urlLoadingProgress.setVisibility(View.VISIBLE);
         revertViewsByDialog();
@@ -308,6 +310,73 @@ public class MainActivity extends AppCompatActivity {
                         return false;
                     }
                 }).into(imageMain);
+    }
+
+    public void loadHistory(View view) {
+
+    }
+
+    private void saveToHistory(Bitmap bitmap) {
+        Set<String> imagesSet = new HashSet<>();
+        imagesSet = preferences.getStringSet(KEY_IMAGES_URI_APP_PREFERENCES, new HashSet<String>());
+        String uri = saveBitmapToSDCashes(bitmap);
+        if (uri != null) {
+            imagesSet.add(saveBitmapToSDCashes(bitmap));
+            preferences.edit().putStringSet(KEY_IMAGES_URI_APP_PREFERENCES, imagesSet).apply();
+        }
+    }
+
+    public String saveBitmapToSDCashes(Bitmap bitmap) {
+
+        OutputStream outputStream = null;
+        Time time = new Time();
+        time.setToNow();
+
+        //file name generation
+        String name = Integer.toString(time.year)
+                + Integer.toString(time.month)
+                + Integer.toString(time.monthDay)
+                + Integer.toString(time.hour)
+                + Integer.toString(time.minute)
+                + Integer.toString(time.second)
+                +".jpg";
+
+        try {
+            File file = new File(this.getExternalCacheDir(), name);
+
+            outputStream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+
+            outputStream.flush();
+            outputStream.close();
+
+            //registration
+            MediaStore.Images.Media.insertImage(
+                    getContentResolver(), file.getAbsolutePath(), file.getName(),  file.getName());
+            return name;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    //Activity override methods
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_ENTER) {
+
+            String query = urlInput.getText().toString();
+
+            if (TextUtils.isEmpty(query)) {
+                return false;
+            } else {
+                loadFromURL(query);
+                return true;
+            }
+        } else super.onKeyUp(keyCode, event);
+        return true;
     }
 
     @Override
