@@ -16,6 +16,7 @@
     <string name="dialog_item_browser_loading_image">load from file</string>
     <string name="dialog_item_camera_loading_image">camera</string>
     <string name="dialog_item_url_loading_image">load image from URL</string>
+    <string name="dialog_item_load_from_url">load</string>
 
     <!--Toasts-->
     <string name="toast_out_of_memory">Out of memory error, please wait…</string>

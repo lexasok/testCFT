@@ -152,22 +152,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_ENTER) {
-
-            String query = urlInput.getText().toString();
-
-            if (TextUtils.isEmpty(query)) {
-                return false;
-            } else {
-                loadFromURL(query);
-                return true;
-            }
-        } else super.onKeyUp(keyCode, event);
-        return true;
-    }
-
-    @Override
     public Object onRetainCustomNonConfigurationInstance() {
         try {
             Bitmap bitmap = ((BitmapDrawable) imageMain.getDrawable()).getBitmap();
@@ -254,6 +238,13 @@ public class MainActivity extends AppCompatActivity {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, RESULT_LOAD_IMAGE_FROM_CAMERA);
+        }
+    }
+
+    public void loadFromURL(View view) {
+        String query = urlInput.getText().toString();
+        if (!TextUtils.isEmpty(query)) {
+            loadFromURL(query);
         }
     }
 
@@ -376,4 +367,6 @@ public class MainActivity extends AppCompatActivity {
             processingResult.remove(processingResult.size() - 1);
         }
     }
+
+
 }
