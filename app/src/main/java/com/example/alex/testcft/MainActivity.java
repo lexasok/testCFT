@@ -100,12 +100,10 @@ public class MainActivity extends AppCompatActivity {
     //get data methods
     private void restoreProcessingResult(Data data) {
         if (data.getmProcesses() != null && data.getmProcesses().size() > 0) {
-            processingResult.clear();
-            processingResult.addAll(data.getmProcesses());
-            for (Bitmap result : processingResult) {
+            List<Bitmap> processesToStart = new ArrayList<>(data.getmProcesses());
+            for (Bitmap result : processesToStart) {
                 load(result);
             }
-
         }
     }
 
@@ -420,6 +418,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void minusProcessingResult() {
-        processingResult.remove(processingResult.size() - 1);
+        if (processingResult.size() > 0) {
+            processingResult.remove(processingResult.size() - 1);
+        }
     }
 }
