@@ -16,13 +16,13 @@
         android:layout_centerInParent="true"
         android:onClick="showDialog"
         android:text="@string/button_choose_image"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/containerContentMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="visible">
 
 
         <ImageView
@@ -42,11 +42,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:onClick="showPopup"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageMain"
+            app:layout_constraintEnd_toEndOf="@+id/buttonBlackAndWhite"
+            app:layout_constraintStart_toStartOf="@+id/buttonBlackAndWhite"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@android:drawable/ic_menu_rotate" />
 
@@ -54,13 +54,11 @@
             android:id="@+id/buttonBlackAndWhite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:onClick="doBlackAndWhite"
             android:text="@string/button_black_and_white"
             android:textSize="@dimen/size_text_button"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageMain"
             app:layout_constraintTop_toBottomOf="@+id/buttonRotate" />
 
@@ -68,14 +66,14 @@
             android:id="@+id/buttonMirrorImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:onClick="mirrorImage"
             android:text="@string/button_mirror_image"
             android:textSize="@dimen/size_text_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageMain"
+            app:layout_constraintEnd_toEndOf="@+id/buttonBlackAndWhite"
+            app:layout_constraintStart_toStartOf="@+id/buttonBlackAndWhite"
             app:layout_constraintTop_toBottomOf="@+id/buttonBlackAndWhite" />
 
         <android.support.v7.widget.RecyclerView
@@ -85,21 +83,21 @@
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/progressList" />
+            app:layout_constraintStart_toEndOf="@+id/buttonBlackAndWhite"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:id="@+id/progressList"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/buttonBlackAndWhite"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/buttonHistory" />
 
@@ -107,15 +105,15 @@
             android:id="@+id/buttonHistory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:onClick="loadHistory"
             android:text="@string/button_title_history"
             android:textSize="@dimen/size_text_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageMain"
-            app:layout_constraintTop_toBottomOf="@+id/buttonMirrorImage"
-            android:onClick="loadHistory"/>
+            app:layout_constraintEnd_toEndOf="@+id/buttonBlackAndWhite"
+            app:layout_constraintStart_toStartOf="@+id/buttonBlackAndWhite"
+            app:layout_constraintTop_toBottomOf="@+id/buttonMirrorImage" />
     </android.support.constraint.ConstraintLayout>
 
 
