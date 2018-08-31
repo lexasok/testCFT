@@ -6,7 +6,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -42,7 +41,6 @@ import com.example.alex.testcft.ImageProcessing.ImageMirror;
 import com.example.alex.testcft.ImageProcessing.ImageRotate;
 import com.example.alex.testcft.ImageProcessing.ProgressTask;
 import com.example.alex.testcft.Model.Data;
-import com.example.alex.testcft.Model.ImageProcessing;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -88,16 +86,9 @@ public class MainActivity extends AppCompatActivity {
             restoreResultData(data);
             showContent();
         }
-
-//        //restore data from app
-//        restoreImageProcesses();
-//        restoreResultData();
-//        restoreImageMain();
-
     }
 
-    //get data methods
-    //get data methods
+    //restore data methods
     private void restoreProcessingResult(Data data) {
         if (data.getmProcesses() != null && data.getmProcesses().size() > 0) {
             List<Bitmap> processesToStart = new ArrayList<>(data.getmProcesses());
@@ -121,35 +112,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    private void restoreImageProcesses() {
-//        try {
-//            imageProcesses = getApp().getImageProcesses();
-//            if (imageProcesses.size() > 0) {
-//                for (ImageProcessing processing : imageProcesses) {
-//                    load(processing.getResult());
-//                }
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    private void restoreResultData() {
-//        mData = getApp().getResults();
-//        if (mData.size() > 0) {
-//            rvAdapter.addBitmapsList(mData);
-//        }
-//    }
-//
-//    private void restoreImageMain() {
-//        Bitmap image = getApp().getImageMain();
-//        if (image != null) {
-//            imageMain.setImageBitmap(image);
-//            showContent();
-//        }
-//    }
-
+    //Activity methods
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -195,20 +158,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-//    @Override
-//    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-//        super.onSaveInstanceState(outState, outPersistentState);
-//        //save image main state
-//        Bitmap bitmap = ((BitmapDrawable) imageMain.getDrawable()).getBitmap();
-//        getApp().setImageMain(bitmap);
-//
-//        //save processes
-//        getApp().setImageProcesses(imageProcesses);
-//
-//        //save results
-//        getApp().setResults(rvAdapter.getData());
-//    }
-
     @Override
     public Object onRetainCustomNonConfigurationInstance() {
         try {
@@ -224,11 +173,6 @@ public class MainActivity extends AppCompatActivity {
     public void onTrimMemory(int level) {
         System.gc();
         super.onTrimMemory(level);
-    }
-
-    //app
-    public AppCFT getApp() {
-        return (AppCFT) getApplication();
     }
 
     //fields initializing methods
@@ -417,6 +361,7 @@ public class MainActivity extends AppCompatActivity {
         historyLoader.load();
     }
 
+    //data (instance) method
     public void minusProcessingResult() {
         if (processingResult.size() > 0) {
             processingResult.remove(processingResult.size() - 1);

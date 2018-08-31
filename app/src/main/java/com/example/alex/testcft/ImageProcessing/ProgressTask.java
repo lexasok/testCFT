@@ -9,14 +9,11 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.alex.testcft.AppCFT;
 import com.example.alex.testcft.HistoryManagment.HistorySaver;
 import com.example.alex.testcft.MainActivity;
-import com.example.alex.testcft.Model.ImageProcessing;
 import com.example.alex.testcft.R;
 import com.example.alex.testcft.RVAdapter;
 
-import java.util.List;
 import java.util.Random;
 
 public class ProgressTask extends AsyncTask<Void, Integer, Void> {

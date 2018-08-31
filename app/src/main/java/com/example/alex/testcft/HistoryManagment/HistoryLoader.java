@@ -6,8 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.widget.Toast;
 
-import com.example.alex.testcft.AppCFT;
-import com.example.alex.testcft.MainActivity;
 import com.example.alex.testcft.R;
 import com.example.alex.testcft.RVAdapter;
 

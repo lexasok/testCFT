@@ -85,7 +85,7 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
         }
     }
 
-    public void showPopup(final View view, final int pos) {
+    private void showPopup(final View view, final int pos) {
         final android.support.v7.widget.PopupMenu popupMenu = new android.support.v7.widget.PopupMenu(mContext, view);
         final MenuInflater menuInflater = popupMenu.getMenuInflater();
         menuInflater.inflate(R.menu.menu_rv_item_popup, popupMenu.getMenu());
