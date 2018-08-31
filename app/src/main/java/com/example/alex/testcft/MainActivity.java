@@ -2,7 +2,6 @@ package com.example.alex.testcft;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -89,11 +88,16 @@ public class MainActivity extends AppCompatActivity {
 
     //get data methods
     private void restoreImageProcesses() {
+        try {
         List<ImageProcessing> processes = getApp().getImageProcesses();
         if (processes.size() > 0) {
             for (ImageProcessing processing : processes) {
                 load(processing.getResult());
             }
+        }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -108,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         Bitmap image = getApp().getImageMain();
         if (image != null) {
             imageMain.setImageBitmap(image);
-            revertViewsByDialog();
+            revertViewsVisibility();
         }
     }
 
@@ -121,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
             Uri imageUri = data.getData();
 
             try {
-                revertViewsByDialog();
+                revertViewsVisibility();
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
                 imageMain.setImageBitmap(bitmap);
                 //save data
@@ -138,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
             Bundle extras = data.getExtras();
             assert extras != null;
             Bitmap imageBitmap = (Bitmap) extras.get(KEY_EXTRAS_GET_PHOTO);
-            revertViewsByDialog();
+            revertViewsVisibility();
             imageMain.setImageBitmap(imageBitmap);
             //save data
             getApp().setImageMain(imageBitmap);
@@ -222,11 +226,14 @@ public class MainActivity extends AppCompatActivity {
         dialogContainer = layout.findViewById(R.id.loadImageDialogContainer);
         urlLoadingProgress = layout.findViewById(R.id.urlLoadingProgressBar);
 
-        revertViewsByDialog();
+        revertViewsVisibility();
     }
 
-    private void revertViewsByDialog() {
-        if (dialogContainer.getVisibility() == View.GONE) {
+    private void revertViewsVisibility() {
+        if (dialogContainer == null) {
+            containerContentMain.setVisibility(View.VISIBLE);
+            buttonChooseImage.setVisibility(View.GONE);
+        } else if (dialogContainer.getVisibility() == View.GONE) {
             dialogContainer.setVisibility(View.VISIBLE);
             containerContentMain.setVisibility(View.GONE);
             buttonChooseImage.setVisibility(View.GONE);
@@ -272,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
                             , Target<Drawable> target, DataSource dataSource
                             , boolean isFirstResource) {
                         urlLoadingProgress.setVisibility(View.GONE);
-                        revertViewsByDialog();
+                        revertViewsVisibility();
                         //save data
                         getApp().setImageMain(((BitmapDrawable) resource).getBitmap());
                         return false;

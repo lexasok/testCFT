@@ -12,7 +12,7 @@ public class AppCFT extends Application {
 
     //data
     private List<ImageProcessing> imageProcesses = new ArrayList<>();
-    private Bitmap imageMain;
+    private Bitmap imageMain = null;
     private List<Bitmap> results = new ArrayList<>();
 
     @Override
