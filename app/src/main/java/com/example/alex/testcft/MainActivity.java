@@ -158,7 +158,6 @@ public class MainActivity extends AppCompatActivity {
         imageMain = findViewById(R.id.imageMain);
         //buttonRotate = findViewById(R.id.buttonRotate);
         progressList = findViewById(R.id.progressList);
-        urlLoadingProgress = findViewById(R.id.urlLoadingProgressBar);
     }
 
     private void initRV() {
@@ -194,6 +193,7 @@ public class MainActivity extends AppCompatActivity {
                 R.layout.dialog_loading_image, (ViewGroup) findViewById(R.id.containerMain));
         urlInput = layout.findViewById(R.id.dialogLoadFromURLEditText);
         dialogContainer = layout.findViewById(R.id.loadImageDialogContainer);
+        urlLoadingProgress = layout.findViewById(R.id.urlLoadingProgressBar);
 
         revertViewsByDialog();
     }
@@ -228,7 +228,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void loadFromURL(String query) {
         urlLoadingProgress.setVisibility(View.VISIBLE);
-        revertViewsByDialog();
         Glide
                 .with(this)
                 .load(query)
@@ -237,7 +236,6 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onLoadFailed(@Nullable GlideException e, Object model
                             , Target<Drawable> target, boolean isFirstResource) {
                         urlLoadingProgress.setVisibility(View.GONE);
-                        revertViewsByDialog();
                         showWrongUrlToast();
                         return false;
                     }
@@ -247,6 +245,7 @@ public class MainActivity extends AppCompatActivity {
                             , Target<Drawable> target, DataSource dataSource
                             , boolean isFirstResource) {
                         urlLoadingProgress.setVisibility(View.GONE);
+                        revertViewsByDialog();
                         return false;
                     }
                 }).into(imageMain);

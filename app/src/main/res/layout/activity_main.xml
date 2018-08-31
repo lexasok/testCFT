@@ -103,21 +103,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/buttonHistory" />
 
-        <ProgressBar
-            android:id="@+id/urlLoadingProgressBar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/imageMain"
-            app:layout_constraintEnd_toEndOf="@+id/imageMain"
-            app:layout_constraintStart_toStartOf="@+id/imageMain"
-            app:layout_constraintTop_toTopOf="@+id/imageMain" />
-
         <Button
             android:id="@+id/buttonHistory"
             android:layout_width="wrap_content"
