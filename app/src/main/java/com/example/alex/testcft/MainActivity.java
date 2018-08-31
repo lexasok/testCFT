@@ -8,7 +8,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Environment;
 import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -40,6 +39,8 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.alex.testcft.ImageProcessing.BlackAndWhiteImage;
+import com.example.alex.testcft.ImageProcessing.HistoryLoader;
+import com.example.alex.testcft.ImageProcessing.HistorySaver;
 import com.example.alex.testcft.ImageProcessing.ImageMirror;
 import com.example.alex.testcft.ImageProcessing.ImageRotate;
 import com.example.alex.testcft.ImageProcessing.ProgressTask;
@@ -48,11 +49,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URI;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -63,8 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int RESULT_LOAD_IMAGE = 1;
     private static final int RESULT_LOAD_IMAGE_FROM_CAMERA = 2;
     private static final String KEY_EXTRAS_GET_PHOTO = "data";
-    private static final String APP_PREFERENCES = "images_preferences";
-    private static final String KEY_IMAGES_URI_APP_PREFERENCES = "images_URI";
+
 
     //views
     private ConstraintLayout containerContentMain;
@@ -172,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initPreferences() {
-        preferences = getApplicationContext().getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
+//        preferences = getApplicationContext().getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
     }
 
     //show or hide views and menus
@@ -312,9 +308,9 @@ public class MainActivity extends AppCompatActivity {
         progressList.addView(relativeLayout);
 
         //to real multithreading
-        new ProgressTask(relativeLayout, rvAdapter, result)
+        HistorySaver historySaver = new HistorySaver(getApplicationContext());
+        new ProgressTask(relativeLayout, rvAdapter, result, historySaver)
                 .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        saveToHistory(result);
 
         //to one second thread
 //        new ProgressTask(relativeLayout, rvAdapter, result).execute();
@@ -331,83 +327,86 @@ public class MainActivity extends AppCompatActivity {
                 getApplicationContext(), R.string.toast_wrong_url, Toast.LENGTH_SHORT).show();
     }
 
-    private void showHistoryToast() {
-        Toast.makeText(
-                getApplicationContext(), R.string.toast_history, Toast.LENGTH_SHORT).show();
-    }
-
-    private void showHaveNoCashesToast() {
-        Toast.makeText(getApplicationContext(),
-                R.string.toast_have_no_cashes, Toast.LENGTH_SHORT).show();
-    }
+//    private void showHistoryToast() {
+//        Toast.makeText(
+//                getApplicationContext(), R.string.toast_history, Toast.LENGTH_SHORT).show();
+//    }
+//
+//    private void showHaveNoCashesToast() {
+//        Toast.makeText(getApplicationContext(),
+//                R.string.toast_have_no_cashes, Toast.LENGTH_SHORT).show();
+//    }
 
     //history methods
     public void loadHistory(View view) {
-        //getting paths
-        Set<String> imagesURI = preferences.getStringSet(
-                KEY_IMAGES_URI_APP_PREFERENCES, new LinkedHashSet<String>());
-        //sorting
-        //getting bitmaps
-        List<Bitmap> bitmaps = new ArrayList<>();
-        for (String str : imagesURI) {
-            try {
-                Bitmap bitmap = BitmapFactory.decodeFile(str);
-                bitmaps.add(bitmap);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (bitmaps.size() > 0) {
-            //show bitmaps
-            rvAdapter.addBitmapsList(bitmaps);
-            showHistoryToast();
-        } else {
-            showHaveNoCashesToast();
-        }
+
+        HistoryLoader historyLoader = new HistoryLoader(getApplicationContext(), rvAdapter);
+        historyLoader.load();
+//        //getting paths
+//        Set<String> imagesURI = preferences.getStringSet(
+//                KEY_IMAGES_URI_APP_PREFERENCES, new LinkedHashSet<String>());
+//        //sorting
+//        //getting bitmaps
+//        List<Bitmap> bitmaps = new ArrayList<>();
+//        for (String str : imagesURI) {
+//            try {
+//                Bitmap bitmap = BitmapFactory.decodeFile(str);
+//                bitmaps.add(bitmap);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        if (bitmaps.size() > 0) {
+//            //show bitmaps
+//            rvAdapter.addBitmapsList(bitmaps);
+//            showHistoryToast();
+//        } else {
+//            showHaveNoCashesToast();
+//        }
     }
 
-    private void saveToHistory(Bitmap bitmap) {
-        Set<String> imagesSet = preferences.getStringSet(
-                KEY_IMAGES_URI_APP_PREFERENCES, new LinkedHashSet<String>());
-        String path = saveBitmapToSDCashes(bitmap);
-        if (path != null) {
-            imagesSet.add(path);
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.clear();
-            editor.putStringSet(KEY_IMAGES_URI_APP_PREFERENCES, imagesSet).apply();
-        }
-    }
+//    private void saveToHistory(Bitmap bitmap) {
+//        Set<String> imagesSet = preferences.getStringSet(
+//                KEY_IMAGES_URI_APP_PREFERENCES, new LinkedHashSet<String>());
+//        String path = saveBitmapToCashes(bitmap);
+//        if (path != null) {
+//            imagesSet.add(path);
+//            SharedPreferences.Editor editor = preferences.edit();
+//            editor.clear();
+//            editor.putStringSet(KEY_IMAGES_URI_APP_PREFERENCES, imagesSet).apply();
+//        }
+//    }
 
-    public String saveBitmapToSDCashes(Bitmap bitmap) {
-
-        OutputStream outputStream = null;
-        Time time = new Time();
-        time.setToNow();
-
-        //file name generation
-        StringBuilder name = new StringBuilder();
-        name.append(time.year);
-        name.append(time.month);
-        name.append(time.monthDay);
-        name.append(time.hour);
-        name.append(time.minute);
-        name.append(time.second);
-        name.append(".jpg");
-
-        try {
-            File file = new File(this.getCacheDir(), name.toString());
-
-            outputStream = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-
-            outputStream.flush();
-            outputStream.close();
-
-            return file.getAbsolutePath();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+//    public String saveBitmapToCashes(Bitmap bitmap) {
+//
+//        OutputStream outputStream = null;
+//        Time time = new Time();
+//        time.setToNow();
+//
+//        //file name generation
+//        StringBuilder name = new StringBuilder();
+//        name.append(time.year);
+//        name.append(time.month);
+//        name.append(time.monthDay);
+//        name.append(time.hour);
+//        name.append(time.minute);
+//        name.append(time.second);
+//        name.append(".jpg");
+//
+//        try {
+//            File file = new File(this.getCacheDir(), name.toString());
+//
+//            outputStream = new FileOutputStream(file);
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+//
+//            outputStream.flush();
+//            outputStream.close();
+//
+//            return file.getAbsolutePath();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
 }

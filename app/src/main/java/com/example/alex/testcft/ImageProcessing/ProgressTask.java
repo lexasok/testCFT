@@ -27,8 +27,9 @@ public class ProgressTask extends AsyncTask<Void, Integer, Void> {
     private RelativeLayout progressContainer;
     private View button;
     private int delay;
+    private HistorySaver historySaver;
 
-    public ProgressTask(RelativeLayout progressContainer, RVAdapter rvAdapter, Bitmap result) {
+    public ProgressTask(RelativeLayout progressContainer, RVAdapter rvAdapter, Bitmap result, HistorySaver historySaver) {
         this.progressContainer = progressContainer;
         this.progressBar = progressContainer.findViewById(R.id.progressBar);
         this.percentIndicator = progressContainer.findViewById(R.id.percentIndicator);
@@ -37,6 +38,7 @@ public class ProgressTask extends AsyncTask<Void, Integer, Void> {
         this.button = null;
         Random random = new Random();
         delay = MIN_DELAY + random.nextInt(MAX_DELAY + 1 - MIN_DELAY);
+        this.historySaver = historySaver;
     }
 
     @Override
@@ -58,6 +60,7 @@ public class ProgressTask extends AsyncTask<Void, Integer, Void> {
     @Override
     protected void onPostExecute(Void unused) {
         progressContainer.setVisibility(View.GONE);
+        historySaver.save(result);
         rvAdapter.addBitmap(result);
     }
 }
