@@ -10,6 +10,7 @@ import com.example.alex.testcft.R;
 import com.example.alex.testcft.RVAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,9 +35,12 @@ public class HistoryLoader {
         Set<String> imagesURI = preferences.getStringSet(
                 KEY_IMAGES_URI_APP_PREFERENCES, new LinkedHashSet<String>());
         //sorting
+        List<String> strings = new ArrayList<>(imagesURI);
+        Collections.sort(strings);
+        Collections.reverse(strings);
         //getting bitmaps
         List<Bitmap> bitmaps = new ArrayList<>();
-        for (String str : imagesURI) {
+        for (String str : strings) {
             try {
                 Bitmap bitmap = BitmapFactory.decodeFile(str);
                 bitmaps.add(bitmap);
