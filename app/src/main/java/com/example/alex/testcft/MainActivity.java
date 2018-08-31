@@ -51,6 +51,7 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -379,16 +380,10 @@ public class MainActivity extends AppCompatActivity {
     public String saveBitmapToSDCashes(Bitmap bitmap) {
 
         OutputStream outputStream = null;
-        Time time = new Time();
-        time.setToNow();
+        Date date = new Date();
 
         //file name generation
-        String name = Integer.toString(time.year)
-                + Integer.toString(time.month)
-                + Integer.toString(time.monthDay)
-                + Integer.toString(time.hour)
-                + Integer.toString(time.minute)
-                + Integer.toString(time.second)
+        String name = Long.toString(date.getTime())
                 +".jpg";
 
         try {
