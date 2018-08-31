@@ -41,8 +41,11 @@ import com.example.alex.testcft.HistoryManagment.HistorySaver;
 import com.example.alex.testcft.ImageProcessing.ImageMirror;
 import com.example.alex.testcft.ImageProcessing.ImageRotate;
 import com.example.alex.testcft.ImageProcessing.ProgressTask;
+import com.example.alex.testcft.Model.ImageProcessing;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
     private EditText urlInput;
     private ProgressBar urlLoadingProgress;
     private LinearLayout dialogContainer;
+
+    //data
+    private List<ImageProcessing> imageProcessings = new ArrayList<>();
 
     //adapters
     private RVAdapter rvAdapter;
