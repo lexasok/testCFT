@@ -372,7 +372,7 @@ public class MainActivity extends AppCompatActivity {
         String path = saveBitmapToSDCashes(bitmap);
         if (path != null) {
             imagesSet.add(path);
-            preferences.edit().putStringSet(KEY_IMAGES_URI_APP_PREFERENCES, imagesSet).apply();
+            preferences.edit().putStringSet(KEY_IMAGES_URI_APP_PREFERENCES, imagesSet).commit();
         }
     }
 
