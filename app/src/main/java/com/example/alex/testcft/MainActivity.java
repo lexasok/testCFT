@@ -348,6 +348,7 @@ public class MainActivity extends AppCompatActivity {
         //sorting
         List<String> strings = new ArrayList<>(imagesURI);
         Collections.sort(strings);
+        Collections.reverse(strings);
         //getting bitmaps
         List<Bitmap> bitmaps = new ArrayList<>();
         for (String str : strings) {
