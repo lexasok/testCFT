@@ -8,7 +8,9 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.alex.testcft.AppCFT;
 import com.example.alex.testcft.HistoryManagment.HistorySaver;
+import com.example.alex.testcft.Model.ImageProcessing;
 import com.example.alex.testcft.R;
 import com.example.alex.testcft.RVAdapter;
 
@@ -26,20 +28,27 @@ public class ProgressTask extends AsyncTask<Void, Integer, Void> {
     private Bitmap result;
     private TextView percentIndicator;
     private RelativeLayout progressContainer;
-    private View button;
     private int delay;
     private HistorySaver historySaver;
+    private AppCFT app;
+    private ImageProcessing imageProcessing;
 
-    public ProgressTask(RelativeLayout progressContainer, RVAdapter rvAdapter, Bitmap result, HistorySaver historySaver) {
+    public ProgressTask(RelativeLayout progressContainer, RVAdapter rvAdapter, Bitmap result, HistorySaver historySaver, AppCFT app) {
         this.progressContainer = progressContainer;
         this.progressBar = progressContainer.findViewById(R.id.progressBar);
         this.percentIndicator = progressContainer.findViewById(R.id.percentIndicator);
         this.rvAdapter = rvAdapter;
         this.result = result;
-        this.button = null;
         Random random = new Random();
         delay = MIN_DELAY + random.nextInt(MAX_DELAY + 1 - MIN_DELAY);
         this.historySaver = historySaver;
+        this.app = app;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        imageProcessing = new ImageProcessing(result);
+        app.addImageProcessing(imageProcessing);
     }
 
     @Override
@@ -61,6 +70,7 @@ public class ProgressTask extends AsyncTask<Void, Integer, Void> {
     @Override
     protected void onPostExecute(Void unused) {
         progressContainer.setVisibility(View.GONE);
+        app.deleteImageProcessing(imageProcessing);
         historySaver.save(result);
         rvAdapter.addBitmap(result);
     }

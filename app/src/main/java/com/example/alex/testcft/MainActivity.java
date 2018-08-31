@@ -301,7 +301,7 @@ public class MainActivity extends AppCompatActivity {
 
         //to real multithreading
         HistorySaver historySaver = new HistorySaver(getApplicationContext());
-        new ProgressTask(relativeLayout, rvAdapter, result, historySaver)
+        new ProgressTask(relativeLayout, rvAdapter, result, historySaver, getApp())
                 .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         //to one second thread
