@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--images-->
+    <!--vies-->
     <dimen name="size_image_main">160dp</dimen>
+    <dimen name="size_progress_bar">32dp</dimen>
+
+    <!--padding-->
+    <dimen name="padding_s">8dp</dimen>
 
     <!--text-->
     <dimen name="size_text_button">10sp</dimen>
-    <dimen name="padding_s">8dp</dimen>
-    <dimen name="size_progress_bar">32dp</dimen>
-
 
 </resources>

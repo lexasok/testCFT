@@ -13,12 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.example.alex.testcft.ImageProcessing.ProgressTask;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
 

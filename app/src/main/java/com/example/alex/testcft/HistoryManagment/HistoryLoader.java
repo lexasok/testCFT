@@ -27,7 +27,6 @@ public class HistoryLoader {
         this.mContext = appContext;
         this.rvAdapter = rvAdapter;
         this.preferences = mContext.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-
     }
 
     public void load() {

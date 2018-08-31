@@ -24,7 +24,6 @@
         android:layout_height="match_parent"
         android:visibility="gone">
 
-
         <ImageView
             android:id="@+id/imageMain"
             android:layout_width="@dimen/size_image_main"
@@ -116,7 +115,6 @@
             app:layout_constraintStart_toEndOf="@+id/imageMain"
             app:layout_constraintTop_toBottomOf="@+id/buttonMirrorImage"
             android:onClick="loadHistory"/>
+
     </android.support.constraint.ConstraintLayout>
-
-
 </RelativeLayout>
