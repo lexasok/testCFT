@@ -225,7 +225,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     public void rotate(MenuItem item) {
         int id = item.getItemId();
         BitmapDrawable bitmapDrawable = (BitmapDrawable) imageMain.getDrawable();
@@ -312,7 +311,7 @@ public class MainActivity extends AppCompatActivity {
                 R.string.toast_have_no_cashes, Toast.LENGTH_SHORT).show();
     }
 
-    //loading methods
+    //loading from URL
     public void loadFromURL(String query) {
         urlLoadingProgress.setVisibility(View.VISIBLE);
         revertViewsByDialog();
