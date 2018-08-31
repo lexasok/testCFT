@@ -135,6 +135,11 @@ public class MainActivity extends AppCompatActivity {
         super.onTrimMemory(level);
     }
 
+    //app
+    private AppCFT getApp() {
+        return (AppCFT) getApplication();
+    }
+
     //fields initializing methods
     private void initViews() {
         containerContentMain = findViewById(R.id.containerContentMain);
