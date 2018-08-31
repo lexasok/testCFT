@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         Bitmap image = getApp().getImageMain();
         if (image != null) {
             imageMain.setImageBitmap(image);
-            revertViewsVisibility();
+            showContent();
         }
     }
 
@@ -177,6 +177,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public Object onRetainCustomNonConfigurationInstance() {
+        return super.onRetainCustomNonConfigurationInstance();
+    }
+
+    @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
     }
@@ -234,7 +239,6 @@ public class MainActivity extends AppCompatActivity {
 
         revertViewsVisibility();
     }
-
     private void revertViewsVisibility() {
         if (dialogContainer == null) {
             containerContentMain.setVisibility(View.VISIBLE);
