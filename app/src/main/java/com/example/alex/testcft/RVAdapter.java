@@ -67,6 +67,8 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
     }
 
     public void addBitmapsList(List<Bitmap> bitmaps) {
+        //clearing for history
+        mData.clear();
         mData.addAll(0, bitmaps);
         notifyDataSetChanged();
     }
