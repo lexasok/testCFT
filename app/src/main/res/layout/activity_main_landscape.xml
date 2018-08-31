@@ -16,13 +16,13 @@
         android:layout_centerInParent="true"
         android:onClick="showDialog"
         android:text="@string/button_choose_image"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/containerContentMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible">
+        android:visibility="gone">
 
 
         <ImageView

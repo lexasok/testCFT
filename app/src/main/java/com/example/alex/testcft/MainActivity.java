@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setLayout() {
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             setContentView(R.layout.activity_main_landscape);
         } else {
             setContentView(R.layout.activity_main);
