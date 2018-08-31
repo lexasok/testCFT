@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
             Uri imageUri = data.getData();
 
             try {
+                revertViewsByDialog();
                 imageMain.setImageBitmap(
                         MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri));
             } catch (IOException e) {
@@ -113,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
             Bundle extras = data.getExtras();
             assert extras != null;
             Bitmap imageBitmap = (Bitmap) extras.get(KEY_EXTRAS_GET_PHOTO);
+            revertViewsByDialog();
             imageMain.setImageBitmap(imageBitmap);
         }
     }
@@ -208,8 +210,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //init buttons methods
+    //dialog buttons
     public void openImageBrowser(View view) {
-        revertViewsByDialog();
         Intent intent = new Intent(
                 Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -218,13 +220,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openCamera(View view) {
-        revertViewsByDialog();
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, RESULT_LOAD_IMAGE_FROM_CAMERA);
         }
     }
 
+    public void loadFromURL(String query) {
+        urlLoadingProgress.setVisibility(View.VISIBLE);
+        revertViewsByDialog();
+        Glide
+                .with(this)
+                .load(query)
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model
+                            , Target<Drawable> target, boolean isFirstResource) {
+                        urlLoadingProgress.setVisibility(View.GONE);
+                        revertViewsByDialog();
+                        showWrongUrlToast();
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model
+                            , Target<Drawable> target, DataSource dataSource
+                            , boolean isFirstResource) {
+                        urlLoadingProgress.setVisibility(View.GONE);
+                        return false;
+                    }
+                }).into(imageMain);
+    }
+
+    //processing buttons
     public void rotate(MenuItem item) {
         int id = item.getItemId();
         BitmapDrawable bitmapDrawable = (BitmapDrawable) imageMain.getDrawable();
@@ -309,33 +337,6 @@ public class MainActivity extends AppCompatActivity {
     private void showHaveNoCashesToast() {
         Toast.makeText(getApplicationContext(),
                 R.string.toast_have_no_cashes, Toast.LENGTH_SHORT).show();
-    }
-
-    //loading from URL
-    public void loadFromURL(String query) {
-        urlLoadingProgress.setVisibility(View.VISIBLE);
-        revertViewsByDialog();
-        Glide
-                .with(this)
-                .load(query)
-                .listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model
-                            , Target<Drawable> target, boolean isFirstResource) {
-                        urlLoadingProgress.setVisibility(View.GONE);
-                        revertViewsByDialog();
-                        showWrongUrlToast();
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model
-                            , Target<Drawable> target, DataSource dataSource
-                            , boolean isFirstResource) {
-                        urlLoadingProgress.setVisibility(View.GONE);
-                        return false;
-                    }
-                }).into(imageMain);
     }
 
     //history methods
