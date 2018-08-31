@@ -8,9 +8,9 @@ public class Data {
 
     private Bitmap mImageMain;
     private List<Bitmap> mData;
-    private List<ImageProcessing> mProcesses;
+    private List<Bitmap> mProcesses;
 
-    public Data(Bitmap imageMain, List<Bitmap> data, List<ImageProcessing> processes) {
+    public Data(Bitmap imageMain, List<Bitmap> data, List<Bitmap> processes) {
         mImageMain = imageMain;
         mData = data;
         mProcesses = processes;
@@ -24,7 +24,7 @@ public class Data {
         return mData;
     }
 
-    public List<ImageProcessing> getmProcesses() {
+    public List<Bitmap> getmProcesses() {
         return mProcesses;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.alex.testcft.ImageProcessing;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.SystemClock;
@@ -32,10 +33,9 @@ public class ProgressTask extends AsyncTask<Void, Integer, Void> {
     private RelativeLayout progressContainer;
     private int delay;
     private HistorySaver historySaver;
-    private List<ImageProcessing> imageProcesses;
-    private ImageProcessing imageProcessing;
+    private Context mContext;
 
-    public ProgressTask(RelativeLayout progressContainer, RVAdapter rvAdapter, Bitmap result, HistorySaver historySaver, List<ImageProcessing> processes) {
+    public ProgressTask(RelativeLayout progressContainer, RVAdapter rvAdapter, Bitmap result, HistorySaver historySaver, Context context) {
         this.progressContainer = progressContainer;
         this.progressBar = progressContainer.findViewById(R.id.progressBar);
         this.percentIndicator = progressContainer.findViewById(R.id.percentIndicator);
@@ -44,13 +44,7 @@ public class ProgressTask extends AsyncTask<Void, Integer, Void> {
         Random random = new Random();
         delay = MIN_DELAY + random.nextInt(MAX_DELAY + 1 - MIN_DELAY);
         this.historySaver = historySaver;
-        this.imageProcesses = processes;
-        imageProcessing = new ImageProcessing(result);
-    }
-
-    @Override
-    protected void onPreExecute() {
-        imageProcesses.add(imageProcessing);
+        this.mContext = context;
     }
 
     @Override
@@ -71,9 +65,13 @@ public class ProgressTask extends AsyncTask<Void, Integer, Void> {
 
     @Override
     protected void onPostExecute(Void unused) {
+        minusProcessesResult();
         progressContainer.setVisibility(View.GONE);
-        imageProcesses.remove(imageProcessing);
         historySaver.save(result);
         rvAdapter.addBitmap(result);
+    }
+
+    private void minusProcessesResult() {
+        ((MainActivity) mContext).minusProcessingResult();
     }
 }

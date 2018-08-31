@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout dialogContainer;
 
     //data
-    private List<ImageProcessing> imageProcesses = new ArrayList<>();
+    private List<Bitmap> processingResult = new ArrayList<>();
     private List<Bitmap> mData = new ArrayList<>();
 
     //adapters
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
         Data data = (Data) getLastCustomNonConfigurationInstance();
         if (data != null) {
-            restoreImageProcesses(data);
+            restoreProcessingResult(data);
             restoreImageMain(data);
             restoreResultData(data);
             showContent();
@@ -98,12 +98,14 @@ public class MainActivity extends AppCompatActivity {
 
     //get data methods
     //get data methods
-    private void restoreImageProcesses(Data data) {
-        imageProcesses = data.getmProcesses();
-        if (imageProcesses.size() > 0) {
-            for (ImageProcessing processing : imageProcesses) {
-                load(processing.getResult());
+    private void restoreProcessingResult(Data data) {
+        if (data.getmProcesses() != null && data.getmProcesses().size() > 0) {
+            processingResult.clear();
+            processingResult.addAll(data.getmProcesses());
+            for (Bitmap result : processingResult) {
+                load(result);
             }
+
         }
     }
 
@@ -213,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
     public Object onRetainCustomNonConfigurationInstance() {
         try {
             Bitmap bitmap = ((BitmapDrawable) imageMain.getDrawable()).getBitmap();
-            return new Data(bitmap, rvAdapter.getData(), imageProcesses);
+            return new Data(bitmap, rvAdapter.getData(), processingResult);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -386,9 +388,13 @@ public class MainActivity extends AppCompatActivity {
                 .inflate(R.layout.loading_row, null);
         progressList.addView(relativeLayout);
 
-        //to real multithreading
+        //save result to history
         HistorySaver historySaver = new HistorySaver(getApplicationContext());
-        new ProgressTask(relativeLayout, rvAdapter, result, historySaver, imageProcesses)
+
+        //process count
+        processingResult.add(result);
+        //to real multithreading
+        new ProgressTask(relativeLayout, rvAdapter, result, historySaver, this)
                 .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         //to one second thread
@@ -411,5 +417,9 @@ public class MainActivity extends AppCompatActivity {
 
         HistoryLoader historyLoader = new HistoryLoader(getApplicationContext(), rvAdapter);
         historyLoader.load();
+    }
+
+    public void minusProcessingResult() {
+        processingResult.remove(processingResult.size() - 1);
     }
 }
