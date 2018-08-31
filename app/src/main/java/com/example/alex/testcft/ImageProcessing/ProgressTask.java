@@ -71,6 +71,7 @@ public class ProgressTask extends AsyncTask<Void, Integer, Void> {
     protected void onPostExecute(Void unused) {
         progressContainer.setVisibility(View.GONE);
         app.deleteImageProcessing(imageProcessing);
+        app.addBitmapToResults(result);
         historySaver.save(result);
         rvAdapter.addBitmap(result);
     }

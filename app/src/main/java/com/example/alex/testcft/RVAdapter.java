@@ -71,6 +71,7 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
         //clearing for history
         mData.clear();
         mData.addAll(bitmaps);
+        getApp().addBitmapsToResults(bitmaps);
         //sorting
         Collections.reverse(mData);
         notifyDataSetChanged();
@@ -97,16 +98,22 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
                 switch (menuItem.getItemId()) {
                     case R.id.delete:
                         mData.remove(pos);
+                        getApp().deleteBitmapFromResults(mData.get(pos));
                         notifyDataSetChanged();
                         break;
                     case R.id.setAsMainImage:
                         imageMain.setImageBitmap(mData.get(pos));
+                        getApp().setImageMain(mData.get(pos));
                         break;
                 }
                 return false;
             }
         });
         popupMenu.show();
+    }
+
+    private AppCFT getApp() {
+        return ((MainActivity) mContext).getApp();
     }
 
 //    @Override

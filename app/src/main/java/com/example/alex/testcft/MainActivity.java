@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //app
-    private AppCFT getApp() {
+    public AppCFT getApp() {
         return (AppCFT) getApplication();
     }
 

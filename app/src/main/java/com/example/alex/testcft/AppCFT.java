@@ -48,6 +48,11 @@ public class AppCFT extends Application {
         results.add(bitmap);
     }
 
+    public void addBitmapsToResults(List<Bitmap> bitmaps) {
+        results.clear();
+        results.addAll(bitmaps);
+    }
+
     public void deleteBitmapFromResults(Bitmap bitmap) {
         results.remove(bitmap);
     }
