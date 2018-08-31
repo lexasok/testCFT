@@ -387,16 +387,21 @@ public class MainActivity extends AppCompatActivity {
         String name = Long.toString(date.getTime())
                 +".jpg";
 
+        boolean isGoodState = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
+
         try {
-            File file = new File(this.getCacheDir(), name);
+            if (isGoodState) {
 
-            outputStream = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                File file = new File(this.getExternalCacheDir(), name);
 
-            outputStream.flush();
-            outputStream.close();
+                outputStream = new FileOutputStream(file);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
 
-            return file.getAbsolutePath();
+                outputStream.flush();
+                outputStream.close();
+
+                return file.getAbsolutePath();
+            } else return null;
 
         } catch (Exception e) {
             e.printStackTrace();
