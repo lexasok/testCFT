@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,7 +48,7 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
         processViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPopup(v,i);
+                showPopup(processViewHolder.popupPosition,i);
             }
         });
     }
@@ -72,11 +73,13 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
     class ProcessViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView imageView;
+        private TextView popupPosition;
 
         ProcessViewHolder(@NonNull View itemView) {
             super(itemView);
 
             imageView = itemView.findViewById(R.id.resultImageViewRowRV);
+            popupPosition = itemView.findViewById(R.id.popupPosition);
         }
     }
 
