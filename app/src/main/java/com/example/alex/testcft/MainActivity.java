@@ -53,6 +53,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -171,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initPreferences() {
-        preferences = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
+        preferences = getApplicationContext().getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
     }
 
     //show or hide views and menus
@@ -306,7 +307,6 @@ public class MainActivity extends AppCompatActivity {
 
     //loading
     private void load(Bitmap result) {
-        saveToHistory(result);
         RelativeLayout relativeLayout = (RelativeLayout) getLayoutInflater()
                 .inflate(R.layout.loading_row, null);
         progressList.addView(relativeLayout);
@@ -314,6 +314,7 @@ public class MainActivity extends AppCompatActivity {
         //to real multithreading
         new ProgressTask(relativeLayout, rvAdapter, result)
                 .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        saveToHistory(result);
 
         //to one second thread
 //        new ProgressTask(relativeLayout, rvAdapter, result).execute();
@@ -344,14 +345,11 @@ public class MainActivity extends AppCompatActivity {
     public void loadHistory(View view) {
         //getting paths
         Set<String> imagesURI = preferences.getStringSet(
-                KEY_IMAGES_URI_APP_PREFERENCES, new HashSet<String>());
+                KEY_IMAGES_URI_APP_PREFERENCES, new LinkedHashSet<String>());
         //sorting
-        List<String> strings = new ArrayList<>(imagesURI);
-        Collections.sort(strings);
-        Collections.reverse(strings);
         //getting bitmaps
         List<Bitmap> bitmaps = new ArrayList<>();
-        for (String str : strings) {
+        for (String str : imagesURI) {
             try {
                 Bitmap bitmap = BitmapFactory.decodeFile(str);
                 bitmaps.add(bitmap);
@@ -370,10 +368,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void saveToHistory(Bitmap bitmap) {
         Set<String> imagesSet = preferences.getStringSet(
-                KEY_IMAGES_URI_APP_PREFERENCES, new HashSet<String>());
-        String uri = saveBitmapToSDCashes(bitmap);
-        if (uri != null) {
-            imagesSet.add(saveBitmapToSDCashes(bitmap));
+                KEY_IMAGES_URI_APP_PREFERENCES, new LinkedHashSet<String>());
+        String path = saveBitmapToSDCashes(bitmap);
+        if (path != null) {
+            imagesSet.add(path);
             preferences.edit().putStringSet(KEY_IMAGES_URI_APP_PREFERENCES, imagesSet).apply();
         }
     }
@@ -381,27 +379,29 @@ public class MainActivity extends AppCompatActivity {
     public String saveBitmapToSDCashes(Bitmap bitmap) {
 
         OutputStream outputStream = null;
-        Date date = new Date();
+        Time time = new Time();
+        time.setToNow();
 
         //file name generation
-        String name = Long.toString(date.getTime())
-                +".jpg";
-
-        boolean isGoodState = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
+        StringBuilder name = new StringBuilder();
+        name.append(time.year);
+        name.append(time.month);
+        name.append(time.monthDay);
+        name.append(time.hour);
+        name.append(time.minute);
+        name.append(time.second);
+        name.append(".jpg");
 
         try {
-            if (isGoodState) {
+            File file = new File(this.getCacheDir(), name.toString());
 
-                File file = new File(this.getExternalCacheDir(), name);
+            outputStream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
 
-                outputStream = new FileOutputStream(file);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+            outputStream.flush();
+            outputStream.close();
 
-                outputStream.flush();
-                outputStream.close();
-
-                return file.getAbsolutePath();
-            } else return null;
+            return file.getAbsolutePath();
 
         } catch (Exception e) {
             e.printStackTrace();

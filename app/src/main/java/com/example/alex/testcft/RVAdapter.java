@@ -69,7 +69,7 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
     public void addBitmapsList(List<Bitmap> bitmaps) {
         //clearing for history
         mData.clear();
-        mData.addAll(0, bitmaps);
+        mData.addAll(bitmaps);
         notifyDataSetChanged();
     }
 
@@ -106,9 +106,9 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
         popupMenu.show();
     }
 
-    @Override
-    public void onViewDetachedFromWindow(@NonNull ProcessViewHolder holder) {
-        super.onViewDetachedFromWindow(holder);
-        holder.imageView.setOnClickListener(null);
-    }
+//    @Override
+//    public void onViewDetachedFromWindow(@NonNull ProcessViewHolder holder) {
+//        super.onViewDetachedFromWindow(holder);
+//        holder.imageView.setOnClickListener(null);
+//    }
 }
