@@ -11,21 +11,25 @@ import java.util.List;
 public class AppCFT extends Application {
 
     //data
-    private List<ImageProcessing> imageProcessings = new ArrayList<>();
+    private List<ImageProcessing> imageProcesses = new ArrayList<>();
     private Bitmap imageMain;
-    private List<Bitmap> mData = new ArrayList<>();
+    private List<Bitmap> results = new ArrayList<>();
 
     @Override
     public void onCreate() {
         super.onCreate();
     }
 
+    public List<ImageProcessing> getImageProcesses() {
+        return imageProcesses;
+    }
+
     public void addImageProcessing(ImageProcessing imageProcessing) {
-        imageProcessings.add(imageProcessing);
+        imageProcesses.add(imageProcessing);
     }
 
     public void deleteImageProcessing(ImageProcessing imageProcessing) {
-        imageProcessings.remove(imageProcessing);
+        imageProcesses.remove(imageProcessing);
     }
 
     public void setImageMain(Bitmap bitmap) {
@@ -36,15 +40,15 @@ public class AppCFT extends Application {
         return imageMain;
     }
 
-    public List<Bitmap> getData() {
-        return mData;
+    public List<Bitmap> getResults() {
+        return results;
     }
 
-    public void addBitmapToData(Bitmap bitmap) {
-        mData.add(bitmap);
+    public void addBitmapToResults(Bitmap bitmap) {
+        results.add(bitmap);
     }
 
-    public void deleteBitmapFromData(Bitmap bitmap) {
-        mData.remove(bitmap);
+    public void deleteBitmapFromResults(Bitmap bitmap) {
+        results.remove(bitmap);
     }
 }

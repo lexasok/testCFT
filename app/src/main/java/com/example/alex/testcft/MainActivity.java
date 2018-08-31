@@ -78,6 +78,37 @@ public class MainActivity extends AppCompatActivity {
 
         initViews();
         initRV();
+
+        //restore data from app
+        restoreImageProcesses();
+        restoreResultData();
+        restoreImageMain();
+
+    }
+
+    //get data methods
+    private void restoreImageProcesses() {
+        List<ImageProcessing> processes = getApp().getImageProcesses();
+        if (processes.size() > 0) {
+            for (ImageProcessing processing : processes) {
+                load(processing.getResult());
+            }
+        }
+    }
+
+    private void restoreResultData() {
+        List<Bitmap> results = getApp().getResults();
+        if (results.size() > 0) {
+            rvAdapter.addBitmapsList(results);
+        }
+    }
+
+    private void restoreImageMain() {
+        Bitmap image = getApp().getImageMain();
+        if (image != null) {
+            imageMain.setImageBitmap(image);
+            revertViewsByDialog();
+        }
     }
 
     @Override

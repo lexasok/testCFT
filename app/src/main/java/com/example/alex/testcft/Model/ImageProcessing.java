@@ -10,4 +10,8 @@ public class ImageProcessing {
     public ImageProcessing(Bitmap result) {
         this.result = result;
     }
+
+    public Bitmap getResult() {
+        return result;
+    }
 }
