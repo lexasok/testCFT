@@ -41,6 +41,7 @@ import com.example.alex.testcft.HistoryManagment.HistorySaver;
 import com.example.alex.testcft.ImageProcessing.ImageMirror;
 import com.example.alex.testcft.ImageProcessing.ImageRotate;
 import com.example.alex.testcft.ImageProcessing.ProgressTask;
+import com.example.alex.testcft.Model.Data;
 import com.example.alex.testcft.Model.ImageProcessing;
 
 import java.io.IOException;
@@ -80,42 +81,74 @@ public class MainActivity extends AppCompatActivity {
         initViews();
         initRV();
 
-        //restore data from app
-        restoreImageProcesses();
-        restoreResultData();
-        restoreImageMain();
+        Data data = (Data) getLastCustomNonConfigurationInstance();
+        if (data != null) {
+            restoreImageProcesses(data);
+            restoreImageMain(data);
+            restoreResultData(data);
+            showContent();
+        }
+
+//        //restore data from app
+//        restoreImageProcesses();
+//        restoreResultData();
+//        restoreImageMain();
 
     }
 
     //get data methods
-    private void restoreImageProcesses() {
-        try {
-            imageProcesses = getApp().getImageProcesses();
-            if (imageProcesses.size() > 0) {
-                for (ImageProcessing processing : imageProcesses) {
-                    load(processing.getResult());
-                }
+    //get data methods
+    private void restoreImageProcesses(Data data) {
+        imageProcesses = data.getmProcesses();
+        if (imageProcesses.size() > 0) {
+            for (ImageProcessing processing : imageProcesses) {
+                load(processing.getResult());
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
-    private void restoreResultData() {
-        mData = getApp().getResults();
+    private void restoreResultData(Data data) {
+        mData = data.getmData();
         if (mData.size() > 0) {
             rvAdapter.addBitmapsList(mData);
         }
     }
 
-    private void restoreImageMain() {
-        Bitmap image = getApp().getImageMain();
+    private void restoreImageMain(Data data) {
+        Bitmap image = data.getmImageMain();
         if (image != null) {
             imageMain.setImageBitmap(image);
-            showContent();
         }
     }
+
+//    private void restoreImageProcesses() {
+//        try {
+//            imageProcesses = getApp().getImageProcesses();
+//            if (imageProcesses.size() > 0) {
+//                for (ImageProcessing processing : imageProcesses) {
+//                    load(processing.getResult());
+//                }
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    private void restoreResultData() {
+//        mData = getApp().getResults();
+//        if (mData.size() > 0) {
+//            rvAdapter.addBitmapsList(mData);
+//        }
+//    }
+//
+//    private void restoreImageMain() {
+//        Bitmap image = getApp().getImageMain();
+//        if (image != null) {
+//            imageMain.setImageBitmap(image);
+//            showContent();
+//        }
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -162,28 +195,29 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-        //save image main state
-        Bitmap bitmap = ((BitmapDrawable) imageMain.getDrawable()).getBitmap();
-        getApp().setImageMain(bitmap);
-
-        //save processes
-        getApp().setImageProcesses(imageProcesses);
-
-        //save results
-        getApp().setResults(rvAdapter.getData());
-    }
+//    @Override
+//    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+//        super.onSaveInstanceState(outState, outPersistentState);
+//        //save image main state
+//        Bitmap bitmap = ((BitmapDrawable) imageMain.getDrawable()).getBitmap();
+//        getApp().setImageMain(bitmap);
+//
+//        //save processes
+//        getApp().setImageProcesses(imageProcesses);
+//
+//        //save results
+//        getApp().setResults(rvAdapter.getData());
+//    }
 
     @Override
     public Object onRetainCustomNonConfigurationInstance() {
-        return super.onRetainCustomNonConfigurationInstance();
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
+        try {
+            Bitmap bitmap = ((BitmapDrawable) imageMain.getDrawable()).getBitmap();
+            return new Data(bitmap, rvAdapter.getData(), imageProcesses);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
