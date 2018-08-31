@@ -3,7 +3,6 @@ package com.example.alex.testcft;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -18,7 +17,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.text.format.Time;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -45,14 +43,7 @@ import com.example.alex.testcft.ImageProcessing.ImageMirror;
 import com.example.alex.testcft.ImageProcessing.ImageRotate;
 import com.example.alex.testcft.ImageProcessing.ProgressTask;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -74,17 +65,12 @@ public class MainActivity extends AppCompatActivity {
     //adapters
     private RVAdapter rvAdapter;
 
-    //preferences
-    private SharedPreferences preferences;
-
-
     //Activity override methods
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initPreferences();
         initViews();
         initRV();
     }
@@ -165,10 +151,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         rvAdapter = new RVAdapter(this, imageMain);
         recyclerView.setAdapter(rvAdapter);
-    }
-
-    private void initPreferences() {
-//        preferences = getApplicationContext().getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
     }
 
     //show or hide views and menus
@@ -327,86 +309,10 @@ public class MainActivity extends AppCompatActivity {
                 getApplicationContext(), R.string.toast_wrong_url, Toast.LENGTH_SHORT).show();
     }
 
-//    private void showHistoryToast() {
-//        Toast.makeText(
-//                getApplicationContext(), R.string.toast_history, Toast.LENGTH_SHORT).show();
-//    }
-//
-//    private void showHaveNoCashesToast() {
-//        Toast.makeText(getApplicationContext(),
-//                R.string.toast_have_no_cashes, Toast.LENGTH_SHORT).show();
-//    }
-
     //history methods
     public void loadHistory(View view) {
 
         HistoryLoader historyLoader = new HistoryLoader(getApplicationContext(), rvAdapter);
         historyLoader.load();
-//        //getting paths
-//        Set<String> imagesURI = preferences.getStringSet(
-//                KEY_IMAGES_URI_APP_PREFERENCES, new LinkedHashSet<String>());
-//        //sorting
-//        //getting bitmaps
-//        List<Bitmap> bitmaps = new ArrayList<>();
-//        for (String str : imagesURI) {
-//            try {
-//                Bitmap bitmap = BitmapFactory.decodeFile(str);
-//                bitmaps.add(bitmap);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        if (bitmaps.size() > 0) {
-//            //show bitmaps
-//            rvAdapter.addBitmapsList(bitmaps);
-//            showHistoryToast();
-//        } else {
-//            showHaveNoCashesToast();
-//        }
     }
-
-//    private void saveToHistory(Bitmap bitmap) {
-//        Set<String> imagesSet = preferences.getStringSet(
-//                KEY_IMAGES_URI_APP_PREFERENCES, new LinkedHashSet<String>());
-//        String path = saveBitmapToCashes(bitmap);
-//        if (path != null) {
-//            imagesSet.add(path);
-//            SharedPreferences.Editor editor = preferences.edit();
-//            editor.clear();
-//            editor.putStringSet(KEY_IMAGES_URI_APP_PREFERENCES, imagesSet).apply();
-//        }
-//    }
-
-//    public String saveBitmapToCashes(Bitmap bitmap) {
-//
-//        OutputStream outputStream = null;
-//        Time time = new Time();
-//        time.setToNow();
-//
-//        //file name generation
-//        StringBuilder name = new StringBuilder();
-//        name.append(time.year);
-//        name.append(time.month);
-//        name.append(time.monthDay);
-//        name.append(time.hour);
-//        name.append(time.minute);
-//        name.append(time.second);
-//        name.append(".jpg");
-//
-//        try {
-//            File file = new File(this.getCacheDir(), name.toString());
-//
-//            outputStream = new FileOutputStream(file);
-//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-//
-//            outputStream.flush();
-//            outputStream.close();
-//
-//            return file.getAbsolutePath();
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
 }
