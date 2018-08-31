@@ -2,6 +2,7 @@ package com.example.alex.testcft;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -121,8 +122,10 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 revertViewsByDialog();
-                imageMain.setImageBitmap(
-                        MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri));
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                imageMain.setImageBitmap(bitmap);
+                //save data
+                getApp().setImageMain(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -137,6 +140,8 @@ public class MainActivity extends AppCompatActivity {
             Bitmap imageBitmap = (Bitmap) extras.get(KEY_EXTRAS_GET_PHOTO);
             revertViewsByDialog();
             imageMain.setImageBitmap(imageBitmap);
+            //save data
+            getApp().setImageMain(imageBitmap);
         }
     }
 
@@ -268,6 +273,8 @@ public class MainActivity extends AppCompatActivity {
                             , boolean isFirstResource) {
                         urlLoadingProgress.setVisibility(View.GONE);
                         revertViewsByDialog();
+                        //save data
+                        getApp().setImageMain(((BitmapDrawable) resource).getBitmap());
                         return false;
                     }
                 }).into(imageMain);
