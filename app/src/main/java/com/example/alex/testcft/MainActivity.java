@@ -341,10 +341,15 @@ public class MainActivity extends AppCompatActivity {
 
     //history methods
     public void loadHistory(View view) {
+        //getting paths
         Set<String> imagesURI = preferences.getStringSet(
                 KEY_IMAGES_URI_APP_PREFERENCES, new HashSet<String>());
+        //sorting
+        List<String> strings = new ArrayList<>(imagesURI);
+        Collections.sort(strings);
+        //getting bitmaps
         List<Bitmap> bitmaps = new ArrayList<>();
-        for (String str : imagesURI) {
+        for (String str : strings) {
             try {
                 Bitmap bitmap = BitmapFactory.decodeFile(str);
                 bitmaps.add(bitmap);
@@ -353,6 +358,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if (bitmaps.size() > 0) {
+            //show bitmaps
             rvAdapter.addBitmapsList(bitmaps);
             showHistoryToast();
         } else {
