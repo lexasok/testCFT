@@ -1,7 +1,6 @@
 package com.example.alex.testcft;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -37,8 +36,8 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.alex.testcft.ImageProcessing.BlackAndWhiteImage;
-import com.example.alex.testcft.ImageProcessing.HistoryLoader;
-import com.example.alex.testcft.ImageProcessing.HistorySaver;
+import com.example.alex.testcft.HistoryManagment.HistoryLoader;
+import com.example.alex.testcft.HistoryManagment.HistorySaver;
 import com.example.alex.testcft.ImageProcessing.ImageMirror;
 import com.example.alex.testcft.ImageProcessing.ImageRotate;
 import com.example.alex.testcft.ImageProcessing.ProgressTask;

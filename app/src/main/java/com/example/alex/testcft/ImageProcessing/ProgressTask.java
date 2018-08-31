@@ -8,6 +8,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.alex.testcft.HistoryManagment.HistorySaver;
 import com.example.alex.testcft.R;
 import com.example.alex.testcft.RVAdapter;
 

@@ -1,4 +1,4 @@
-package com.example.alex.testcft.ImageProcessing;
+package com.example.alex.testcft.HistoryManagment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
