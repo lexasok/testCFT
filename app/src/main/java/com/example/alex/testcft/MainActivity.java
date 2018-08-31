@@ -134,8 +134,9 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            revertViewsVisibility();
             imageMain.setImageBitmap(bitmap);
-            showContent();
+//            showContent();
         }
 
         if (requestCode == RESULT_LOAD_IMAGE_FROM_CAMERA && resultCode == RESULT_OK) {

@@ -66,8 +66,6 @@ public class RVAdapter extends Adapter<RVAdapter.ProcessViewHolder> {
         //clearing for history
         mData.clear();
         mData.addAll(bitmaps);
-        //sorting
-        Collections.reverse(mData);
         notifyDataSetChanged();
     }
 
