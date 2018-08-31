@@ -244,33 +244,30 @@ public class MainActivity extends AppCompatActivity {
     public void loadFromURL(View view) {
         String query = urlInput.getText().toString();
         if (!TextUtils.isEmpty(query)) {
-            loadFromURL(query);
+            urlLoadingProgress.setVisibility(View.VISIBLE);
+            Glide
+                    .with(this)
+                    .load(query)
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model
+                                , Target<Drawable> target, boolean isFirstResource) {
+                            urlLoadingProgress.setVisibility(View.GONE);
+                            showWrongUrlToast();
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model
+                                , Target<Drawable> target, DataSource dataSource
+                                , boolean isFirstResource) {
+                            urlLoadingProgress.setVisibility(View.GONE);
+                            revertViewsVisibility();
+                            return false;
+                        }
+                    })
+                    .into(imageMain);
         }
-    }
-
-    public void loadFromURL(String query) {
-        urlLoadingProgress.setVisibility(View.VISIBLE);
-        Glide
-                .with(this)
-                .load(query)
-                .listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model
-                            , Target<Drawable> target, boolean isFirstResource) {
-                        urlLoadingProgress.setVisibility(View.GONE);
-                        showWrongUrlToast();
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model
-                            , Target<Drawable> target, DataSource dataSource
-                            , boolean isFirstResource) {
-                        urlLoadingProgress.setVisibility(View.GONE);
-                        revertViewsVisibility();
-                        return false;
-                    }
-                }).into(imageMain);
     }
 
     //processing buttons
@@ -367,6 +364,5 @@ public class MainActivity extends AppCompatActivity {
             processingResult.remove(processingResult.size() - 1);
         }
     }
-
 
 }
