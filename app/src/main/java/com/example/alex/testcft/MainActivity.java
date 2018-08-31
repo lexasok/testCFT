@@ -65,7 +65,8 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout dialogContainer;
 
     //data
-    private List<ImageProcessing> imageProcessings = new ArrayList<>();
+    private List<ImageProcessing> imageProcesses = new ArrayList<>();
+    private List<Bitmap> mData = new ArrayList<>();
 
     //adapters
     private RVAdapter rvAdapter;
@@ -89,12 +90,12 @@ public class MainActivity extends AppCompatActivity {
     //get data methods
     private void restoreImageProcesses() {
         try {
-        List<ImageProcessing> processes = getApp().getImageProcesses();
-        if (processes.size() > 0) {
-            for (ImageProcessing processing : processes) {
-                load(processing.getResult());
+            imageProcesses = getApp().getImageProcesses();
+            if (imageProcesses.size() > 0) {
+                for (ImageProcessing processing : imageProcesses) {
+                    load(processing.getResult());
+                }
             }
-        }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -102,9 +103,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void restoreResultData() {
-        List<Bitmap> results = getApp().getResults();
-        if (results.size() > 0) {
-            rvAdapter.addBitmapsList(results);
+        mData = getApp().getResults();
+        if (mData.size() > 0) {
+            rvAdapter.addBitmapsList(mData);
         }
     }
 
@@ -128,8 +129,6 @@ public class MainActivity extends AppCompatActivity {
                 revertViewsVisibility();
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
                 imageMain.setImageBitmap(bitmap);
-                //save data
-                getApp().setImageMain(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -144,8 +143,6 @@ public class MainActivity extends AppCompatActivity {
             Bitmap imageBitmap = (Bitmap) extras.get(KEY_EXTRAS_GET_PHOTO);
             revertViewsVisibility();
             imageMain.setImageBitmap(imageBitmap);
-            //save data
-            getApp().setImageMain(imageBitmap);
         }
     }
 
@@ -168,6 +165,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
+        //save image main state
+        Bitmap bitmap = ((BitmapDrawable) imageMain.getDrawable()).getBitmap();
+        getApp().setImageMain(bitmap);
+
+        //save processes
+        getApp().setImageProcesses(imageProcesses);
+
+        //save results
+        getApp().setResults(rvAdapter.getData());
     }
 
     @Override
@@ -280,8 +286,6 @@ public class MainActivity extends AppCompatActivity {
                             , boolean isFirstResource) {
                         urlLoadingProgress.setVisibility(View.GONE);
                         revertViewsVisibility();
-                        //save data
-                        getApp().setImageMain(((BitmapDrawable) resource).getBitmap());
                         return false;
                     }
                 }).into(imageMain);
@@ -346,7 +350,7 @@ public class MainActivity extends AppCompatActivity {
 
         //to real multithreading
         HistorySaver historySaver = new HistorySaver(getApplicationContext());
-        new ProgressTask(relativeLayout, rvAdapter, result, historySaver, getApp())
+        new ProgressTask(relativeLayout, rvAdapter, result, historySaver, imageProcesses)
                 .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         //to one second thread

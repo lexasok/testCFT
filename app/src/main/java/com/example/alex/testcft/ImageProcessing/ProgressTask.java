@@ -10,10 +10,12 @@ import android.widget.TextView;
 
 import com.example.alex.testcft.AppCFT;
 import com.example.alex.testcft.HistoryManagment.HistorySaver;
+import com.example.alex.testcft.MainActivity;
 import com.example.alex.testcft.Model.ImageProcessing;
 import com.example.alex.testcft.R;
 import com.example.alex.testcft.RVAdapter;
 
+import java.util.List;
 import java.util.Random;
 
 public class ProgressTask extends AsyncTask<Void, Integer, Void> {
@@ -30,10 +32,10 @@ public class ProgressTask extends AsyncTask<Void, Integer, Void> {
     private RelativeLayout progressContainer;
     private int delay;
     private HistorySaver historySaver;
-    private AppCFT app;
+    private List<ImageProcessing> imageProcesses;
     private ImageProcessing imageProcessing;
 
-    public ProgressTask(RelativeLayout progressContainer, RVAdapter rvAdapter, Bitmap result, HistorySaver historySaver, AppCFT app) {
+    public ProgressTask(RelativeLayout progressContainer, RVAdapter rvAdapter, Bitmap result, HistorySaver historySaver, List<ImageProcessing> processes) {
         this.progressContainer = progressContainer;
         this.progressBar = progressContainer.findViewById(R.id.progressBar);
         this.percentIndicator = progressContainer.findViewById(R.id.percentIndicator);
@@ -42,13 +44,13 @@ public class ProgressTask extends AsyncTask<Void, Integer, Void> {
         Random random = new Random();
         delay = MIN_DELAY + random.nextInt(MAX_DELAY + 1 - MIN_DELAY);
         this.historySaver = historySaver;
-        this.app = app;
+        this.imageProcesses = processes;
+        imageProcessing = new ImageProcessing(result);
     }
 
     @Override
     protected void onPreExecute() {
-        imageProcessing = new ImageProcessing(result);
-        app.addImageProcessing(imageProcessing);
+        imageProcesses.add(imageProcessing);
     }
 
     @Override
@@ -70,8 +72,7 @@ public class ProgressTask extends AsyncTask<Void, Integer, Void> {
     @Override
     protected void onPostExecute(Void unused) {
         progressContainer.setVisibility(View.GONE);
-        app.deleteImageProcessing(imageProcessing);
-        app.addBitmapToResults(result);
+        imageProcesses.remove(imageProcessing);
         historySaver.save(result);
         rvAdapter.addBitmap(result);
     }

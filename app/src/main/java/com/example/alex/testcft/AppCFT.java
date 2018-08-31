@@ -20,17 +20,22 @@ public class AppCFT extends Application {
         super.onCreate();
     }
 
+    public void setImageProcesses(List<ImageProcessing> imageProcesses) {
+        this.imageProcesses.clear();
+        this.imageProcesses.addAll(imageProcesses);
+    }
+
     public List<ImageProcessing> getImageProcesses() {
         return imageProcesses;
     }
 
-    public void addImageProcessing(ImageProcessing imageProcessing) {
-        imageProcesses.add(imageProcessing);
-    }
-
-    public void deleteImageProcessing(ImageProcessing imageProcessing) {
-        imageProcesses.remove(imageProcessing);
-    }
+//    public void addImageProcessing(ImageProcessing imageProcessing) {
+//        imageProcesses.add(imageProcessing);
+//    }
+//
+//    public void deleteImageProcessing(ImageProcessing imageProcessing) {
+//        imageProcesses.remove(imageProcessing);
+//    }
 
     public void setImageMain(Bitmap bitmap) {
         imageMain = bitmap;
@@ -44,16 +49,8 @@ public class AppCFT extends Application {
         return results;
     }
 
-    public void addBitmapToResults(Bitmap bitmap) {
-        results.add(bitmap);
-    }
-
-    public void addBitmapsToResults(List<Bitmap> bitmaps) {
+    public void setResults(List<Bitmap> bitmaps) {
         results.clear();
         results.addAll(bitmaps);
-    }
-
-    public void deleteBitmapFromResults(Bitmap bitmap) {
-        results.remove(bitmap);
     }
 }
