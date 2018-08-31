@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String APP_PREFERENCES = "images_preferences";
     private static final String KEY_IMAGES_URI_APP_PREFERENCES = "images_URI";
 
-    //view
+    //views
     private ConstraintLayout containerContentMain;
     private Button buttonChooseImage;
     private ImageView imageMain;
@@ -78,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
     //preferences
     private SharedPreferences preferences;
 
+
+    //Activity override methods
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,18 +88,6 @@ public class MainActivity extends AppCompatActivity {
         initPreferences();
         initViews();
         initRV();
-    }
-
-    private void initRV() {
-        RecyclerView recyclerView = findViewById(R.id.resultListRV);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        rvAdapter = new RVAdapter(this, imageMain);
-        recyclerView.setAdapter(rvAdapter);
-    }
-
-    private void initPreferences() {
-        preferences = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
     }
 
     @Override
@@ -127,6 +117,39 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_ENTER) {
+
+            String query = urlInput.getText().toString();
+
+            if (TextUtils.isEmpty(query)) {
+                return false;
+            } else {
+                loadFromURL(query);
+                return true;
+            }
+        } else super.onKeyUp(keyCode, event);
+        return true;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        System.gc();
+        super.onTrimMemory(level);
+    }
+
+    //fields initializing methods
     private void initViews() {
         containerContentMain = findViewById(R.id.containerContentMain);
         buttonChooseImage = findViewById(R.id.buttonChooseImage);
@@ -136,7 +159,19 @@ public class MainActivity extends AppCompatActivity {
         urlLoadingProgress = findViewById(R.id.urlLoadingProgressBar);
     }
 
-    //show or hide views
+    private void initRV() {
+        RecyclerView recyclerView = findViewById(R.id.resultListRV);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        rvAdapter = new RVAdapter(this, imageMain);
+        recyclerView.setAdapter(rvAdapter);
+    }
+
+    private void initPreferences() {
+        preferences = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
+    }
+
+    //show or hide views and menus
     public void showContent() {
         if (buttonChooseImage.getVisibility() == View.VISIBLE) {
             buttonChooseImage.setVisibility(View.GONE);
@@ -151,6 +186,26 @@ public class MainActivity extends AppCompatActivity {
         popupMenu.show();
     }
 
+    public void showDialog(View view) {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(
+                R.layout.dialog_loading_image, (ViewGroup) findViewById(R.id.containerMain));
+        urlInput = layout.findViewById(R.id.dialogLoadFromURLEditText);
+        dialogContainer = layout.findViewById(R.id.loadImageDialogContainer);
+
+        revertViewsByDialog();
+    }
+
+    private void revertViewsByDialog() {
+        if (dialogContainer.getVisibility() == View.GONE) {
+            dialogContainer.setVisibility(View.VISIBLE);
+            containerContentMain.setVisibility(View.GONE);
+            buttonChooseImage.setVisibility(View.GONE);
+        } else {
+            dialogContainer.setVisibility(View.GONE);
+            containerContentMain.setVisibility(View.VISIBLE);
+        }
+    }
 
     //init buttons methods
     public void openImageBrowser(View view) {
@@ -208,8 +263,6 @@ public class MainActivity extends AppCompatActivity {
         } else  {
             showOutOfMemoryToast();
         }
-
-
     }
 
     public void mirrorImage(View view) {
@@ -238,54 +291,26 @@ public class MainActivity extends AppCompatActivity {
 //        new ProgressTask(relativeLayout, rvAdapter, result).execute();
     }
 
-    public void setImageMain(Bitmap bitmap) {
-        imageMain.setImageBitmap(bitmap);
-    }
-
     //Toasts
-    public void showOutOfMemoryToast() {
+    private void showOutOfMemoryToast() {
         Toast.makeText(
                 getApplicationContext(), R.string.toast_out_of_memory, Toast.LENGTH_SHORT).show();
     }
 
-    public void showWrongUrlToast() {
+    private void showWrongUrlToast() {
         Toast.makeText(
                 getApplicationContext(), R.string.toast_wrong_url, Toast.LENGTH_SHORT).show();
     }
 
-    public void showHistoryToast() {
+    private void showHistoryToast() {
         Toast.makeText(
                 getApplicationContext(), R.string.toast_history, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onTrimMemory(int level) {
-        System.gc();
-        super.onTrimMemory(level);
+    private void showHaveNoCashesToast() {
+        Toast.makeText(getApplicationContext(),
+                R.string.toast_have_no_cashes, Toast.LENGTH_SHORT).show();
     }
-
-    public void showDialog(View view) {
-        LayoutInflater inflater = getLayoutInflater();
-        View layout = inflater.inflate(
-                R.layout.dialog_loading_image, (ViewGroup) findViewById(R.id.containerMain));
-        urlInput = layout.findViewById(R.id.dialogLoadFromURLEditText);
-        dialogContainer = layout.findViewById(R.id.loadImageDialogContainer);
-
-        revertViewsByDialog();
-    }
-
-    private void revertViewsByDialog() {
-        if (dialogContainer.getVisibility() == View.GONE) {
-            dialogContainer.setVisibility(View.VISIBLE);
-            containerContentMain.setVisibility(View.GONE);
-            buttonChooseImage.setVisibility(View.GONE);
-        } else {
-            dialogContainer.setVisibility(View.GONE);
-            containerContentMain.setVisibility(View.VISIBLE);
-        }
-    }
-
-
 
     //loading methods
     public void loadFromURL(String query) {
@@ -314,6 +339,7 @@ public class MainActivity extends AppCompatActivity {
                 }).into(imageMain);
     }
 
+    //history methods
     public void loadHistory(View view) {
         Set<String> imagesURI = preferences.getStringSet(
                 KEY_IMAGES_URI_APP_PREFERENCES, new HashSet<String>());
@@ -332,11 +358,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             showHaveNoCashesToast();
         }
-    }
-
-    private void showHaveNoCashesToast() {
-        Toast.makeText(getApplicationContext(),
-                R.string.toast_have_no_cashes, Toast.LENGTH_SHORT).show();
     }
 
     private void saveToHistory(Bitmap bitmap) {
@@ -379,33 +400,5 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
             return null;
         }
-    }
-
-    //Activity override methods
-
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_ENTER) {
-
-            String query = urlInput.getText().toString();
-
-            if (TextUtils.isEmpty(query)) {
-                return false;
-            } else {
-                loadFromURL(query);
-                return true;
-            }
-        } else super.onKeyUp(keyCode, event);
-        return true;
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
     }
 }
