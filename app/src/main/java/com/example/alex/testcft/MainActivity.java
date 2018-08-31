@@ -244,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
         if (!TextUtils.isEmpty(query)) {
             urlLoadingProgress.setVisibility(View.VISIBLE);
             Glide
-                    .with(this)
+                    .with(getApplicationContext())
                     .load(query)
                     .listener(new RequestListener<Drawable>() {
                         @Override
@@ -252,6 +252,7 @@ public class MainActivity extends AppCompatActivity {
                                 , Target<Drawable> target, boolean isFirstResource) {
                             urlLoadingProgress.setVisibility(View.GONE);
                             showWrongUrlToast();
+
                             return false;
                         }
 
