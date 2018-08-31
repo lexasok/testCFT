@@ -172,7 +172,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void rotate(MenuItem item) {
-        System.gc();
         int id = item.getItemId();
         BitmapDrawable bitmapDrawable = (BitmapDrawable) imageMain.getDrawable();
         Bitmap bitmapToProcess = bitmapDrawable.getBitmap();
@@ -198,8 +197,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void doBlackAndWhite(View view) {
-        System.gc();
-
         //processing
         Bitmap result = BlackAndWhiteImage.make(
                 ((BitmapDrawable)imageMain.getDrawable()).getBitmap()
@@ -216,7 +213,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void mirrorImage(View view) {
-        System.gc();
         //processing
         Bitmap result = ImageMirror.make(
                 ((BitmapDrawable)imageMain.getDrawable()).getBitmap());
