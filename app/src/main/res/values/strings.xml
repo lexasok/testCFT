@@ -21,4 +21,5 @@
     <string name="toast_out_of_memory">Out of memory error, please wait…</string>
     <string name="toast_wrong_url">Wrong URL</string>
     <string name="toast_history">history added</string>
+    <string name="toast_have_no_cashes">Images does not exist in cash</string>
 </resources>

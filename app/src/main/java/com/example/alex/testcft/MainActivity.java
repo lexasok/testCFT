@@ -319,9 +319,24 @@ public class MainActivity extends AppCompatActivity {
                 KEY_IMAGES_URI_APP_PREFERENCES, new HashSet<String>());
         List<Bitmap> bitmaps = new ArrayList<>();
         for (String str : imagesURI) {
-            bitmaps.add(BitmapFactory.decodeFile(str));
+            try {
+                Bitmap bitmap = BitmapFactory.decodeFile(str);
+                bitmaps.add(bitmap);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        rvAdapter.addBitmapsList(bitmaps);
+        if (bitmaps.size() > 0) {
+            rvAdapter.addBitmapsList(bitmaps);
+            showHistoryToast();
+        } else {
+            showHaveNoCashesToast();
+        }
+    }
+
+    private void showHaveNoCashesToast() {
+        Toast.makeText(getApplicationContext(),
+                R.string.toast_have_no_cashes, Toast.LENGTH_SHORT).show();
     }
 
     private void saveToHistory(Bitmap bitmap) {
