@@ -129,15 +129,13 @@ public class MainActivity extends AppCompatActivity {
         //setting image
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri imageUri = data.getData();
-
+            Bitmap bitmap = null;
             try {
-                revertViewsVisibility();
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-                imageMain.setImageBitmap(bitmap);
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+            imageMain.setImageBitmap(bitmap);
             showContent();
         }
 
